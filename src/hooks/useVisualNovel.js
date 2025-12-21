@@ -17,6 +17,7 @@ export function useVisualNovel(scriptText) {
   const [currentContent, setCurrentContent] = useState(null);
   const [choices, setChoices] = useState([]);
   const [scene, setScene] = useState(null);
+  const [pose, setPose] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [gameEnded, setGameEnded] = useState(false);
@@ -82,11 +83,21 @@ export function useVisualNovel(scriptText) {
       gameState.initialize("start");
 
       // Get initial content
-      const initialContent = gameState.getCurrentContent();
-      const initialSection = gameState.getCurrentSection();
-      const initialScene = initialSection?.metadata?.scene;
+      let initialContent = gameState.getCurrentContent();
+      let initialSection = gameState.getCurrentSection();
+      let initialScene = initialSection?.metadata?.scene;
+      let initialPose = initialSection?.metadata?.pose;
+
+      // Skip pose items at the start
+      while (initialContent?.type === "pose") {
+        initialPose = initialContent.pose;
+        gameState.advance();
+        initialContent = gameState.getCurrentContent();
+        initialSection = gameState.getCurrentSection();
+      }
 
       setScene(initialScene);
+      setPose(initialPose);
 
       if (initialContent?.type === "dialogue") {
         setCurrentContent({
@@ -130,9 +141,64 @@ export function useVisualNovel(scriptText) {
       const newContent = gameState.getCurrentContent();
       const newSection = gameState.getCurrentSection();
       const newScene = newSection?.metadata?.scene;
+      const newPose = newSection?.metadata?.pose;
       setScene(newScene);
+      setPose(newPose);
 
-      if (newContent?.type === "dialogue") {
+      if (newContent?.type === "pose") {
+        // Update pose and automatically advance
+        setPose(newContent.pose);
+        // Recursively advance to skip pose items
+        gameState.advance();
+        const nextContent = gameState.getCurrentContent();
+        const nextSection = gameState.getCurrentSection();
+
+        if (nextContent?.type === "dialogue") {
+          setCurrentContent({
+            type: "dialogue",
+            character: nextContent.character,
+            text: nextContent.text,
+            displayName: nextContent.character,
+            color: charactersRef.current.getColor(nextContent.character),
+          });
+          setChoices([]);
+        } else if (nextContent?.type === "choice") {
+          const sectionChoices = nextSection.content.filter(
+            (item) => item.type === "choice",
+          );
+          setCurrentContent({
+            type: "choices",
+            choices: sectionChoices,
+          });
+          setChoices(sectionChoices);
+        } else if (nextContent?.type === "pose") {
+          // Skip multiple consecutive pose items
+          setPose(nextContent.pose);
+          gameState.advance();
+          const furtherContent = gameState.getCurrentContent();
+          const furtherSection = gameState.getCurrentSection();
+
+          if (furtherContent?.type === "dialogue") {
+            setCurrentContent({
+              type: "dialogue",
+              character: furtherContent.character,
+              text: furtherContent.text,
+              displayName: furtherContent.character,
+              color: charactersRef.current.getColor(furtherContent.character),
+            });
+            setChoices([]);
+          } else if (furtherContent?.type === "choice") {
+            const sectionChoices = furtherSection.content.filter(
+              (item) => item.type === "choice",
+            );
+            setCurrentContent({
+              type: "choices",
+              choices: sectionChoices,
+            });
+            setChoices(sectionChoices);
+          }
+        }
+      } else if (newContent?.type === "dialogue") {
         setCurrentContent({
           type: "dialogue",
           character: newContent.character,
@@ -159,9 +225,62 @@ export function useVisualNovel(scriptText) {
       const newContent = gameState.getCurrentContent();
       const newSection = gameState.getCurrentSection();
       const newScene = newSection?.metadata?.scene;
+      const newPose = newSection?.metadata?.pose;
       setScene(newScene);
+      setPose(newPose);
 
-      if (newContent?.type === "dialogue") {
+      if (newContent?.type === "pose") {
+        // Update pose and automatically advance
+        setPose(newContent.pose);
+        gameState.advance();
+        const nextContent = gameState.getCurrentContent();
+        const nextSection = gameState.getCurrentSection();
+
+        if (nextContent?.type === "dialogue") {
+          setCurrentContent({
+            type: "dialogue",
+            character: nextContent.character,
+            text: nextContent.text,
+            displayName: nextContent.character,
+            color: charactersRef.current.getColor(nextContent.character),
+          });
+          setChoices([]);
+        } else if (nextContent?.type === "choice") {
+          const sectionChoices = nextSection.content.filter(
+            (item) => item.type === "choice",
+          );
+          setCurrentContent({
+            type: "choices",
+            choices: sectionChoices,
+          });
+          setChoices(sectionChoices);
+        } else if (nextContent?.type === "pose") {
+          setPose(nextContent.pose);
+          gameState.advance();
+          const furtherContent = gameState.getCurrentContent();
+          const furtherSection = gameState.getCurrentSection();
+
+          if (furtherContent?.type === "dialogue") {
+            setCurrentContent({
+              type: "dialogue",
+              character: furtherContent.character,
+              text: furtherContent.text,
+              displayName: furtherContent.character,
+              color: charactersRef.current.getColor(furtherContent.character),
+            });
+            setChoices([]);
+          } else if (furtherContent?.type === "choice") {
+            const sectionChoices = furtherSection.content.filter(
+              (item) => item.type === "choice",
+            );
+            setCurrentContent({
+              type: "choices",
+              choices: sectionChoices,
+            });
+            setChoices(sectionChoices);
+          }
+        }
+      } else if (newContent?.type === "dialogue") {
         setCurrentContent({
           type: "dialogue",
           character: newContent.character,
@@ -204,9 +323,21 @@ export function useVisualNovel(scriptText) {
       const newContent = gameState.getCurrentContent();
       const newSection = gameState.getCurrentSection();
       const newScene = newSection?.metadata?.scene;
+      const newPose = newSection?.metadata?.pose;
       setScene(newScene);
+      setPose(newPose);
 
-      if (newContent?.type === "dialogue") {
+      if (newContent?.type === "pose") {
+        setPose(newContent.pose);
+        setCurrentContent({
+          type: "dialogue",
+          character: "",
+          text: "",
+          displayName: "",
+          color: "",
+        });
+        setChoices([]);
+      } else if (newContent?.type === "dialogue") {
         setCurrentContent({
           type: "dialogue",
           character: newContent.character,
@@ -240,9 +371,62 @@ export function useVisualNovel(scriptText) {
       const newContent = gameState.getCurrentContent();
       const newSection = gameState.getCurrentSection();
       const newScene = newSection?.metadata?.scene;
+      const newPose = newSection?.metadata?.pose;
       setScene(newScene);
+      setPose(newPose);
 
-      if (newContent?.type === "dialogue") {
+      if (newContent?.type === "pose") {
+        // Update pose and automatically advance
+        setPose(newContent.pose);
+        gameState.advance();
+        const nextContent = gameState.getCurrentContent();
+        const nextSection = gameState.getCurrentSection();
+
+        if (nextContent?.type === "dialogue") {
+          setCurrentContent({
+            type: "dialogue",
+            character: nextContent.character,
+            text: nextContent.text,
+            displayName: nextContent.character,
+            color: charactersRef.current.getColor(nextContent.character),
+          });
+          setChoices([]);
+        } else if (nextContent?.type === "choice") {
+          const sectionChoices = nextSection.content.filter(
+            (item) => item.type === "choice",
+          );
+          setCurrentContent({
+            type: "choices",
+            choices: sectionChoices,
+          });
+          setChoices(sectionChoices);
+        } else if (nextContent?.type === "pose") {
+          setPose(nextContent.pose);
+          gameState.advance();
+          const furtherContent = gameState.getCurrentContent();
+          const furtherSection = gameState.getCurrentSection();
+
+          if (furtherContent?.type === "dialogue") {
+            setCurrentContent({
+              type: "dialogue",
+              character: furtherContent.character,
+              text: furtherContent.text,
+              displayName: furtherContent.character,
+              color: charactersRef.current.getColor(furtherContent.character),
+            });
+            setChoices([]);
+          } else if (furtherContent?.type === "choice") {
+            const sectionChoices = furtherSection.content.filter(
+              (item) => item.type === "choice",
+            );
+            setCurrentContent({
+              type: "choices",
+              choices: sectionChoices,
+            });
+            setChoices(sectionChoices);
+          }
+        }
+      } else if (newContent?.type === "dialogue") {
         setCurrentContent({
           type: "dialogue",
           character: newContent.character,
@@ -296,11 +480,21 @@ export function useVisualNovel(scriptText) {
         gameStateRef.current = gameState;
         gameState.initialize("start");
 
-        const initialContent = gameState.getCurrentContent();
-        const initialSection = gameState.getCurrentSection();
-        const initialScene = initialSection?.metadata?.scene;
+        let initialContent = gameState.getCurrentContent();
+        let initialSection = gameState.getCurrentSection();
+        let initialScene = initialSection?.metadata?.scene;
+        let initialPose = initialSection?.metadata?.pose;
+
+        // Skip pose items at the start
+        while (initialContent?.type === "pose") {
+          initialPose = initialContent.pose;
+          gameState.advance();
+          initialContent = gameState.getCurrentContent();
+          initialSection = gameState.getCurrentSection();
+        }
 
         setScene(initialScene);
+        setPose(initialPose);
 
         if (initialContent?.type === "dialogue") {
           setCurrentContent({
@@ -336,6 +530,7 @@ export function useVisualNovel(scriptText) {
     currentContent,
     choices,
     scene,
+    pose,
     isLoading,
     error,
     gameEnded,

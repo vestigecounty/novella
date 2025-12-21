@@ -14,6 +14,7 @@ const GameContainer = ({
   currentContent,
   choices,
   scene,
+  pose,
   isLoading,
   error,
   gameEnded,
@@ -175,7 +176,7 @@ const GameContainer = ({
       onTouchEnd={handleTouchEnd}
       style={isDialogue ? { cursor: "pointer" } : {}}
     >
-      <SceneDisplay scene={scene} />
+      <SceneDisplay scene={scene} pose={pose} />
 
       {currentContent.type === "dialogue" && (
         <DialogueBox

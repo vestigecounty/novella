@@ -46,10 +46,21 @@ export class MarkdownParser {
         continue;
       }
 
-      // Detect metadata (scene:, background:, music:, etc.)
+      // Detect metadata (scene:, pose:, background:, music:, etc.)
       const sceneMatch = trimmed.match(/^scene:\s*(\w+)\s*$/);
       if (sceneMatch) {
         currentMetadata.scene = sceneMatch[1];
+        continue;
+      }
+
+      const poseMatch = trimmed.match(/^pose:\s*(\w+)\s*$/);
+      if (poseMatch) {
+        currentMetadata.pose = poseMatch[1];
+        // Create a pose content item so it can be processed during gameplay
+        currentContent.push({
+          type: "pose",
+          pose: poseMatch[1],
+        });
         continue;
       }
 

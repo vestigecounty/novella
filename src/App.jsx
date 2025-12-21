@@ -8,6 +8,7 @@ function App() {
     currentContent,
     choices,
     scene,
+    pose,
     isLoading,
     error,
     gameEnded,
@@ -23,6 +24,7 @@ function App() {
         currentContent={currentContent}
         choices={choices}
         scene={scene}
+        pose={pose}
         isLoading={isLoading}
         error={error}
         gameEnded={gameEnded}
