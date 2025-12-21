@@ -193,22 +193,23 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .dialogue-box {
-        min-height: auto;
-        padding: 10px;
+        min-height: 120px;
+        padding: 15px;
+        padding-bottom: calc(15px + env(safe-area-inset-bottom));
     }
 
     .character-name {
-        font-size: 12px;
-        margin-bottom: 4px;
+        font-size: 16px;
+        margin-bottom: 10px;
     }
 
     .dialogue-text {
-        font-size: 12px;
-        margin-bottom: 6px;
+        font-size: 14px;
+        margin-bottom: 15px;
     }
 
     .dialogue-text-container {
-        height: 70px;
+        height: 100px;
     }
 
     .menu-choices {
