@@ -108,7 +108,7 @@ export function useVisualNovel(scriptText, skipReset = false) {
       let initialContent = gameState.getCurrentContent();
       let initialSection = gameState.getCurrentSection();
       let initialScene = initialSection?.metadata?.scene;
-      let initialPose = initialSection?.metadata?.pose;
+      let initialPose = initialSection?.metadata?.pose || null;
 
       // Skip pose items at the start
       while (initialContent?.type === "pose") {
@@ -162,9 +162,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
       const newContent = gameState.getCurrentContent();
       const newSection = gameState.getCurrentSection();
       const newScene = newSection?.metadata?.scene;
-      const newPose = newSection?.metadata?.pose;
       setScene(newScene);
-      setPose(newPose);
+      // Don't update pose from section metadata when advancing within section
+      // Only update pose when we encounter a pose item or change sections
 
       if (newContent?.type === "pose") {
         // Update pose and automatically advance
