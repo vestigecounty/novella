@@ -7,6 +7,7 @@
     background: rgba(0, 0, 0, 0.7);
     border-top: 3px solid #ffd700;
     padding: 20px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
     min-height: 150px;
     display: flex;
     flex-direction: column;
@@ -15,12 +16,15 @@
     font-family: "Arial", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
+    max-height: 90vh;
+    overflow: hidden;
     z-index: 10;
+    box-sizing: border-box;
 }
 
-.dialogue-box:hover {
+/*.dialogue-box:hover {
     background: rgba(0, 0, 0, 0.95);
-}
+}*/
 
 .dialogue-content {
     flex: 1;
@@ -103,7 +107,9 @@
     right: 0;
     background: rgba(0, 0, 0, 0.95);
     padding: 30px;
+    padding-bottom: calc(30px + env(safe-area-inset-bottom));
     z-index: 10;
+    box-sizing: border-box;
 }
 
 .choices-container {
