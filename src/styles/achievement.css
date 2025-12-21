@@ -1,0 +1,135 @@
+/* Achievement Badge Styles */
+.achievement-badge {
+  display: inline-block;
+  position: relative;
+  margin: 0 2px;
+  animation: achievementPulse 0.6s ease-out;
+}
+
+.achievement-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #000;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.95em;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.achievement-star {
+  font-size: 0.85em;
+  animation: starAppear 0.4s ease-out 0.3s both;
+}
+
+/* Perimeter highlight animation */
+.achievement-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(90deg,
+    #FFD700 0%,
+    #FFA500 25%,
+    #FFD700 50%,
+    #FFA500 75%,
+    #FFD700 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: perimeterGlow 1.2s ease-in-out forwards;
+  z-index: 1;
+}
+
+@keyframes perimeterGlow {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.6),
+                inset 0 0 8px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 16px rgba(255, 215, 0, 0.8),
+                inset 0 0 12px rgba(255, 215, 0, 0.6);
+  }
+  100% {
+    opacity: 0;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.2),
+                inset 0 0 4px rgba(255, 215, 0, 0.1);
+  }
+}
+
+@keyframes achievementPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes starAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Achievement in dialogue text */
+.dialogue-text .achievement-badge {
+  vertical-align: middle;
+  margin: 0 3px;
+}
+
+.dialogue-text .achievement-content {
+  font-size: 0.9em;
+  padding: 3px 8px;
+}
+
+/* Achievement in choice buttons */
+.choice-button .achievement-badge {
+  vertical-align: middle;
+  margin: 0 4px;
+}
+
+.choice-button .achievement-content {
+  font-size: 0.85em;
+  padding: 2px 6px;
+  background: linear-gradient(135deg, #FFE066 0%, #FFB84D 100%);
+  box-shadow: 0 1px 4px rgba(255, 215, 0, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .achievement-content {
+    font-size: 0.85em;
+    padding: 3px 8px;
+    gap: 4px;
+  }
+
+  .achievement-star {
+    font-size: 0.75em;
+  }
+
+  .choice-button .achievement-content {
+    font-size: 0.8em;
+    padding: 2px 6px;
+  }
+}

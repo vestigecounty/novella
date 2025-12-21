@@ -1,0 +1,397 @@
+/* Dialogue Box Styles */
+.dialogue-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.7) 80%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    /*border-top: 3px solid #ffd700;*/
+    padding: 20px;
+    padding-top: 50px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #ffffff;
+    font-family: "Arial", sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 10;
+    box-sizing: border-box;
+    /* Mobile Safari specific fixes */
+    width: 100%;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+/*.dialogue-box:hover {
+    background: rgba(0, 0, 0, 0.95);
+}*/
+
+.dialogue-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.character-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffd700;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-height: 1.2em;
+}
+
+.dialogue-text {
+    font-size: 20px;
+    line-height: 1.6;
+    color: #ffffff;
+    margin-bottom: 15px;
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+/* Container for text layout locking */
+.dialogue-text-container {
+    position: relative;
+    display: block;
+    height: 40px;
+    overflow: hidden;
+}
+
+/* Special handling when video is present */
+.dialogue-text-container:has(.video-player-container) {
+    height: auto;
+    min-height: 128px;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+}
+
+/* Hide the invisible text spacer when video present */
+.dialogue-text-container:has(.video-player-container) .dialogue-text-invisible {
+    display: none;
+}
+
+/* Add padding to the visible text when video is present */
+.dialogue-text-container:has(.video-player-container) .dialogue-text-visible {
+    padding-right: 144px; /* 128px video + 16px margin */
+    flex: 1;
+    min-height: 128px;
+    display: flex;
+    align-items: center;
+}
+
+/* Invisible text that locks the layout */
+.dialogue-text-invisible {
+    visibility: hidden;
+    display: block;
+    pointer-events: none;
+}
+
+/* Visible progressive text overlaid on top */
+.dialogue-text-visible {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.advance-icon {
+    display: inline-block;
+    color: #ffffff;
+    margin-left: 8px;
+    animation: pulse 0.6s infinite;
+    vertical-align: text-bottom;
+    line-height: 1;
+}
+
+.advance-icon svg {
+    display: inline-block;
+    vertical-align: baseline;
+    position: relative;
+    top: 2px;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Menu Choices Styles */
+.menu-choices {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.7) 80%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    padding: 80px;
+    padding-bottom: calc(30px + env(safe-area-inset-bottom));
+    z-index: 10;
+    box-sizing: border-box;
+    max-height: 90vh;
+    max-height: 90dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+}
+
+.choices-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.choice-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: 2px solid #ffd700;
+    padding: 15px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-align: left;
+    font-weight: bold;
+}
+
+.choice-button:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateX(10px);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.choice-button:active {
+    transform: translateX(5px);
+}
+
+.no-choices {
+    color: #ffd700;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+}
+
+/* End Message Styles */
+.end-message {
+    background: rgba(0, 0, 0, 0.95);
+    border-top: 3px solid #ffd700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+}
+
+.end-message .dialogue-text {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.reset-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: 2px solid #ffd700;
+    padding: 12px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.reset-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.reset-button:active {
+    transform: scale(0.95);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dialogue-box {
+        min-height: 120px;
+        padding: 15px;
+        padding-top: 50px;
+        padding-bottom: calc(15px + env(safe-area-inset-bottom));
+        /* Ensure it stays at bottom on mobile */
+        position: fixed;
+        bottom: 0;
+    }
+
+    .character-name {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .dialogue-text {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .dialogue-text-container {
+        height: 100px;
+    }
+
+    .menu-choices {
+        padding: 20px;
+        padding-bottom: calc(20px + env(safe-area-inset-bottom));
+        position: fixed;
+        bottom: 0;
+    }
+
+    .choices-container {
+        gap: 10px;
+    }
+
+    .choice-button {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    .advance-icon {
+        margin-left: 6px;
+    }
+}
+
+/* Landscape orientation specific fixes for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .dialogue-box {
+        max-height: 80vh;
+        max-height: 80dvh;
+        padding: 10px;
+        padding-top: 50px;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    }
+
+    .character-name {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .dialogue-text {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .dialogue-text-container {
+        height: 60px;
+    }
+
+    .menu-choices {
+        max-height: 80vh;
+        max-height: 80dvh;
+        padding: 15px;
+        padding-bottom: calc(15px + env(safe-area-inset-bottom));
+    }
+
+    .choice-button {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+}
+
+/* Sprite Styles */
+.sprite-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    overflow: visible;
+}
+
+.sprite-container {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: visible;
+    transition: all 0.3s ease;
+}
+
+/* Position variants */
+.sprite-container.left-third {
+    left: 0;
+    width: 33.333%;
+}
+
+.sprite-container.center {
+    left: 33.333%;
+    width: 33.333%;
+}
+
+.sprite-container.right-third {
+    left: 66.666%;
+    width: 33.333%;
+}
+
+/* Sprite styles */
+.sprite {
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    animation: spriteAppear 0.3s ease-in-out;
+}
+
+.sprite.sm {
+    height: 30vh;
+}
+
+.sprite.m {
+    height: 50vh;
+}
+
+.sprite.lg {
+    height: 70vh;
+}
+
+.sprite.xl {
+    height: 90vh;
+}
+
+@keyframes spriteAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
