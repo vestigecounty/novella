@@ -9,6 +9,9 @@
     font-family: "Arial", sans-serif;
     position: relative;
     overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
 }
 
 .game-container.loading,
@@ -92,28 +95,31 @@
 
 @media (max-width: 768px) {
     .game-container {
-        height: auto;
-        min-height: 100vh;
+        height: 100dvh;
+        flex-direction: column;
     }
 
     .scene-display {
-        min-height: 300px;
+        flex: 1;
+        min-height: 0;
     }
 }
 
 @media (max-width: 480px) {
     .game-container {
-        height: auto;
-        min-height: 100vh;
+        height: 100dvh;
+        flex-direction: column;
     }
 
     .scene-display {
-        min-height: 200px;
+        flex: 1;
+        min-height: 0;
     }
 
     .dialogue-box {
         min-height: 100px;
         padding: 10px;
+        flex-shrink: 0;
     }
 
     .character-name {
