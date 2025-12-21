@@ -16,7 +16,7 @@
     font-family: "Arial", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
-    max-height: 90vh;
+    max-height: 90dvh;
     overflow: hidden;
     z-index: 10;
     box-sizing: border-box;
