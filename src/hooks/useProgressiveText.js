@@ -6,6 +6,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
 const TYPING_SPEED = 30; // milliseconds per character
+const COMMA_PAUSE = 150; // milliseconds pause after comma
 
 export function useProgressiveText(text) {
   const [state, setState] = useState({
@@ -43,7 +44,11 @@ export function useProgressiveText(text) {
       // Check for sentence ending (., !, ?)
       else if (char === "." || char === "!" || char === "?") {
         // Don't end if next char is also a period (could be ellipsis start)
-        if (!(char === "." && fullText[i + 1] === ".")) {
+        // Don't end if ? is followed by ! (treat ?! as single ending)
+        if (
+          !(char === "." && fullText[i + 1] === ".") &&
+          !(char === "?" && fullText[i + 1] === "!")
+        ) {
           result.push(current.trim());
           current = "";
         }
@@ -105,8 +110,16 @@ export function useProgressiveText(text) {
           ...prev,
           displayedText: currentSentence.substring(0, charIndexRef.current + 1),
         }));
+
+        const currentChar = currentSentence[charIndexRef.current];
         charIndexRef.current++;
-        animationRef.current = setTimeout(animate, TYPING_SPEED);
+
+        // Use longer pause for commas
+        const delay =
+          currentChar === "," || currentChar === "..."
+            ? COMMA_PAUSE
+            : TYPING_SPEED;
+        animationRef.current = setTimeout(animate, delay);
       } else {
         setState((prev) => ({
           ...prev,

@@ -1,94 +1,117 @@
 # start
-scene: meadow_sylvie
-**Narrator**: Welcome to this simple visual novel!
-**Narrator**: You're standing in a beautiful meadow with your friend Sylvie.
+scene: intro2
 
-**Sylvie**: Hello! I'm so glad you came to visit me today!
-**Sylvie**: What would you like to do?
+**Narrator**: (Звук шагов по мокрому булыжнику, вдалеке гудит трамвай)
 
-[Let's play a game](#game_path)
-[Let's read a book together](#book_path)
-[Let's take a walk](#walk_path)
+**Г**: (Вздыхает) Питер... Да, это город-призрак, город-воспоминание, город, где прошлое дышит тебе в затылок. Здесь все как будто пропитано историей, она сочится из каждого камня, каждой арки, каждого канала...
 
-# game_path
-scene: room_games
-**Sylvie**: Great! Let's play something fun.
-**Sylvie**: We could play chess or cards.
+# intro
+scene: intro1
 
-[Chess sounds fun](#chess)
-[I prefer cards](#cards)
+**Г**: Это не Москва с ее напором и стремлением к будущему. Питер смотрит в прошлое, словно пытаясь понять, как мы дошли до жизни такой. Здесь каждый двор — это отдельная история, каждая парадная — будто декорация к историческому фильму.
+# yard
+scene: outside
 
-# chess
-scene: room_games
-**Sylvie**: Excellent choice! This should be interesting.
-**Narrator**: You play a tense game of chess. After an hour of intense strategy...
-**Sylvie**: Checkmate! You played well though!
-**Narrator**: You lost, but it was a good match.
+(Г оглядывается вокруг, любуясь подворотней)
 
-[Try again](#game_path)
-[That was fun!](#end_scene)
+**Г**: Невский, конечно, великолепен, но вот в этих тихих переулках чувствуется настоящая душа города. Мир Достоевского, если хотите… Нищета и роскошь рука об руку, словно они всегда были вместе. Здесь помнят Грибоедова, Блока, Ахматову... Голуби вон как будто духи Пушкина летают над головой...
 
-# cards
-scene: room_games
-**Sylvie**: Wonderful! Let's see who wins this time.
-**Narrator**: Cards fly across the table in an exciting game of luck and strategy.
-**Sylvie**: I think you won this round!
-**Narrator**: You came out ahead in the game!
+(Г спотыкается о кучу мусора)
 
-[Play another round](#game_path)
-[That was great!](#end_scene)
+**Г**: (Тихо) Даже в этой подворотне есть своя прелесть… Питер умеет удивлять.
 
-# book_path
-scene: library_books
-**Sylvie**: I love reading! Which genre interests you?
+(Замечает "Мусорного Стража")
+# trashman1
+scene: trashman1
 
-[A mystery novel](#mystery)
-[A fantasy epic](#fantasy)
-[A romance story](#romance)
+**МС**: (Хрипло) Так, так, так… Кто это к нам пожаловал? Я – Мусорный Страж, и я здесь всех знаю! Готовь бабки за проход! Хотя ладно, сегодня скидка для лохов.
 
-# mystery
-scene: library_books
-**Sylvie**: Mystery novels are absolutely thrilling!
-**Narrator**: You lose yourself in an intriguing whodunit. Hours pass as you turn page after page.
-**Narrator**: Finally, you reach the climax and discover the culprit!
-**Sylvie**: What did you think? Did you guess the ending?
+**Г**: Мусорный Страж… Оригинально. И что охраняешь? От чего?
 
-[Yes, that was amazing!](#end_scene)
-[Not really my style](#book_path)
+# trashman2
+scene: trashman4
 
-# fantasy
-scene: library_books
-**Sylvie**: Fantasy worlds are so immersive and magical!
-**Narrator**: You discover an epic tale of dragons, wizards, and quests.
-**Narrator**: The story sweeps you away to a realm of wonder and adventure.
-**Sylvie**: Wasn't that incredible? The world-building is superb!
+**МС**: Охраняю от твоей тупой морды! Чего приперся, а?
 
-[Absolutely!](#end_scene)
-[It was okay](#book_path)
+**Г**: (Оглядывается) Ну да, тут есть что охранять… Куча мусора.
 
-# romance
-scene: library_books
-**Sylvie**: *smiles warmly* This one is very special.
-**Narrator**: A touching love story unfolds before your eyes, filled with tender moments.
-**Narrator**: By the end, tears are rolling down your cheeks.
-**Sylvie**: This one always gets to me too. Wasn't it beautiful?
+**МС**: (раздраженно) Не стой столбом! Ты мне обзор на голубей закрываешь! 
 
-[Yes, it really was](#end_scene)
-[Let's try something else](#book_path)
+**Г**: Голубей? А что с ними?
 
-# walk_path
-scene: meadow_sylvie
-**Sylvie**: A walk sounds absolutely perfect!
-**Narrator**: You walk through the meadow together, enjoying the warm sunshine and gentle breeze.
-**Narrator**: Wildflowers sway in the wind as you talk about life and dreams.
-**Sylvie**: This is nice, being out here with you. Thank you for this moment.
+# trashman3
+scene: trashman3
 
-[This was wonderful](#end_scene)
-[Let's do something else](#start)
+**МС**: Это сука элита двора! Лучшие бомбардировщики Питера!
 
+**Г**: Ммм... Они и на тебя бомбят?
+
+**МС**: (Вздыхает) Ну да… постоянно. Но это почётно! Значит, я достойный объект для атаки! Это как знак качества, понял?! Они всякий хлам не бомбят, им нужен достойный противник.
+
+**Г**: И ты не обижаешься?
+
+# trashman4
+scene: trashman2
+
+**МС**: Обижаться на голубей – это как обижаться на дождь в Питере! Бесполезно! Зато они создают атмосферу, добавляют колорита! А их помет - это удобрение для моих газетных слоев. В общем, взаимовыгодное сотрудничество!
+
+**Г**: (Улыбается) Логично. Значит, голуби – твои союзники?
+
+# trashman5
+scene: trashman1
+
+**МС**: Союзники, братья по оружию, элита двора! Они знают все секреты этого места, и если что - прилетят на помощь! Главное, не смотри им в глаза слишком долго, а то закидают насмерть.
+
+**Г**: Буду иметь в виду. Ты их как-то задабриваешь?
+
+# trashman6
+scene: trashman4
+
+**МС**: (Показывает рукой на кусок булки, лежащий у его "ног") Вот, угощаю их свежим хлебом! Они любят французский багэтик, эти голуби-снобы! И не вздумай украсть их долю, а то получишь по голове от моей глушильной руки!
+
+[Украсть булку](#steal_path)
+[Угостить печенькой](#bribe_path)
+# steal_path
+scene: trashman1
+
+**Г**: (Быстро хватает кусок багета и откусывает) Вкуснятина! Спасибо за угощение, Страж.
+
+**МС**: (Хмыкает) Ах ты, ворюга! Ну ладно, голуби не сильно обижаются, они привыкли к наглости туристов… но этот багет был особенный! Французский, с трюфелями! Их любимый деликатес.
+
+# pigeon_death
+scene: pigeon_death
+
+Внезапно небо темнеет от голубей. Они начинают атаковать Героя с яростью, достойной лучших бомбардировщиков. Клювы и когти летят в лицо, перья забиваются в рот…
+
+**Г**: (Задыхаясь) Черт возьми! Что за нахрен?!
+
+**МС**: (Спокойно наблюдая за происходящим) Ты посмел украсть их трюфельный багет! Теперь они отомстят за всю обиду, которую им причинили туристы. Голуби - существа мстительные, особенно когда дело касается еды.
+
+**Г**: (Задыхаясь) Трюфели… вот так облом! Лучше б я съел простой пирог с грибом!
+
+**МС**: (Спокойно наблюдая за происходящим) 
+За жадность ту он поплатился впрок,
+Вперёд чужой беде не смейся, Голубок.
+
+[Вы умерли](#end_scene)
+# bribe_path
+scene: trashman2
+
+**Г**: (Достает из кармана печенье "Юбилейное") Вот, держите! Голуби, угощайтесь! Может, им французский багет уже надоел?
+
+Голуби радостно слетаются к Герою и начинают клевать печеньку. Мусорный Страж удивленно наблюдает за этим.
+
+**МС**: Ого… "Юбилейное"! Эти голуби-снобы любят разнообразие! Молодец, парень, ты их подкупил! Они обычно нос воротят от всего не французского.
+
+Один особенно крупный голубь садится Герою на плечо и благодарно воркует.
+
+**Г**: (Улыбается) Кажется, я им понравился. Он даже заурчал!
+
+**МС**: Понравился! Теперь у тебя есть голубиная свита. Если заблудишься – просто свистни, они приведут к ближайшей шаурме или пивнушке. А если кто-то будет с тобой спорить - они его закидают! 
+
+[Получена ачивка **Голубиная Мафия**](#end_scene)
 # end_scene
-scene: meadow_sylvie
-**Narrator**: Thank you for spending time with Sylvie!
-**Narrator**: You had a wonderful day together filled with laughter and adventure.
+scene: intro1
+**Narrator**: Thank you for spending time with us!
 **Narrator**: This is the end of this visual novel.
 **Narrator**: Feel free to play again and choose different paths to explore all the stories!

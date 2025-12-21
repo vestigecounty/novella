@@ -7,11 +7,11 @@ import React from "react";
 import { Mouse } from "lucide-react";
 import "../styles/dialogue.css";
 
-const DialogueBox = ({ character, displayedText, isAllDone, text }) => {
+const DialogueBox = ({ character, displayedText, isAllDone, text, color }) => {
   return (
     <div className="dialogue-box">
       <div className="dialogue-content">
-        <div className="character-name">
+        <div className="character-name" style={{ color: color || "#ffd700" }}>
           {character && character !== "Narrator" ? character : ""}
         </div>
         <div className="dialogue-text dialogue-text-container">

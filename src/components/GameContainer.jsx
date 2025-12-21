@@ -3,7 +3,7 @@
  * Main game wrapper component that combines all elements
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 import DialogueBox from "./DialogueBox";
 import MenuChoices from "./MenuChoices";
 import SceneDisplay from "./SceneDisplay";
@@ -40,6 +40,27 @@ const GameContainer = ({
       }
     }
   };
+
+  // Handle spacebar key press for advancing dialogue
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.code === "Space" && isDialogue) {
+        e.preventDefault();
+        if (isAllDone) {
+          // All text is displayed, advance to next content
+          onAdvance();
+        } else {
+          // Text is still animating, complete the animation
+          handleClick();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [isDialogue, isAllDone, handleClick, onAdvance]);
 
   if (isLoading) {
     return (
@@ -82,6 +103,7 @@ const GameContainer = ({
           text={currentContent.text}
           displayedText={displayedText}
           isAllDone={isAllDone}
+          color={currentContent.color}
         />
       )}
 

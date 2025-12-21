@@ -23,6 +23,7 @@ export function useVisualNovel(scriptText) {
 
   const interpreterRef = useRef(null);
   const gameStateRef = useRef(null);
+  const charactersRef = useRef(null);
   const initializedRef = useRef(false);
 
   // Initialize game engine on script load
@@ -51,6 +52,23 @@ export function useVisualNovel(scriptText) {
 
       // Initialize all components
       const characters = new CharacterRegistry();
+
+      // Register МС with custom color
+      characters.register("МС", {
+        name: "МС",
+        color: "#FF6B9D",
+        displayName: "МС",
+      });
+
+      // Register Г (protagonist) with custom color
+      characters.register("Г", {
+        name: "Г",
+        color: "#87CEEB",
+        displayName: "Г",
+      });
+
+      charactersRef.current = characters;
+
       const variables = new VariableStore();
       const navigation = new NavigationHelper(ast);
       const dialogue = new DialogueProcessor(characters, variables);
@@ -76,9 +94,9 @@ export function useVisualNovel(scriptText) {
           character: initialContent.character,
           text: initialContent.text,
           displayName: initialContent.character,
+          color: characters.getColor(initialContent.character),
         });
-        setChoices([]);
-      } else if (initialContent?.type === "choice") {
+      } else if (initialContent?.type === "choices") {
         // Collect all choices in section
         const sectionChoices = initialSection.content.filter(
           (item) => item.type === "choice",
@@ -120,6 +138,7 @@ export function useVisualNovel(scriptText) {
           character: newContent.character,
           text: newContent.text,
           displayName: newContent.character,
+          color: charactersRef.current.getColor(newContent.character),
         });
         setChoices([]);
       } else if (newContent?.type === "choice") {
@@ -148,6 +167,7 @@ export function useVisualNovel(scriptText) {
           character: newContent.character,
           text: newContent.text,
           displayName: newContent.character,
+          color: charactersRef.current.getColor(newContent.character),
         });
         setChoices([]);
       } else if (newContent?.type === "choice") {
@@ -192,6 +212,7 @@ export function useVisualNovel(scriptText) {
           character: newContent.character,
           text: newContent.text,
           displayName: newContent.character,
+          color: charactersRef.current.getColor(newContent.character),
         });
         setChoices([]);
       } else if (newContent?.type === "choice") {
@@ -251,6 +272,7 @@ export function useVisualNovel(scriptText) {
             character: initialContent.character,
             text: initialContent.text,
             displayName: initialContent.character,
+            color: characters.getColor(initialContent.character),
           });
           setChoices([]);
         } else if (initialContent?.type === "choice") {
