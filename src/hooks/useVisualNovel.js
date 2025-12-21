@@ -13,7 +13,7 @@ import DialogueProcessor from "../core/DialogueProcessor";
 import GameStateManager from "../core/GameStateManager";
 import MarkdownInterpreter from "../core/MarkdownInterpreter";
 
-export function useVisualNovel(scriptText) {
+export function useVisualNovel(scriptText, skipReset = false) {
   const [currentContent, setCurrentContent] = useState(null);
   const [choices, setChoices] = useState([]);
   const [scene, setScene] = useState(null);
@@ -26,16 +26,27 @@ export function useVisualNovel(scriptText) {
   const gameStateRef = useRef(null);
   const charactersRef = useRef(null);
   const initializedRef = useRef(false);
+  const currentPositionRef = useRef(null);
 
   // Initialize game engine on script load
   useEffect(() => {
-    if (!scriptText || initializedRef.current) {
+    if (!scriptText) {
       return;
     }
 
     try {
       setIsLoading(true);
       setError(null);
+
+      // Save current position before reinitializing (for hot reload)
+      if (skipReset && gameStateRef.current) {
+        currentPositionRef.current = {
+          label: gameStateRef.current.getCurrentLabel(),
+          contentIndex: gameStateRef.current.currentContentIndex,
+        };
+      }
+
+      setGameEnded(false);
 
       // Parse script
       const parser = new MarkdownParser();
@@ -82,6 +93,17 @@ export function useVisualNovel(scriptText) {
       // Initialize game
       gameState.initialize("start");
 
+      // Restore position if we're hot-reloading
+      if (skipReset && currentPositionRef.current) {
+        const savedPosition = currentPositionRef.current;
+        if (gameState.jump(savedPosition.label)) {
+          // Jump succeeded, now advance to the saved content index
+          while (gameState.currentContentIndex < savedPosition.contentIndex) {
+            if (!gameState.advance()) break;
+          }
+        }
+      }
+
       // Get initial content
       let initialContent = gameState.getCurrentContent();
       let initialSection = gameState.getCurrentSection();
@@ -120,7 +142,6 @@ export function useVisualNovel(scriptText) {
       }
 
       setIsLoading(false);
-      initializedRef.current = true;
     } catch (err) {
       console.error("Error initializing visual novel:", err);
       setError(err.message);
