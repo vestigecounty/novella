@@ -1,16 +1,107 @@
-# React + Vite
+App Structure
+visual-novel-engine/  
+├── public/  
+│   └── index.html  
+├── src/  
+│   ├── App.jsx                    # Main app component  
+│   ├── core/  
+│   │   ├── MarkdownInterpreter.js # Core script interpreter  
+│   │   ├── GameStateManager.js    # Game state and navigation  
+│   │   └── DialogueProcessor.js   # Text and character handling  
+│   ├── components/  
+│   │   ├── GameContainer.jsx      # Main game wrapper  
+│   │   ├── DialogueBox.jsx        # ADV-style dialogue display  
+│   │   ├── NVLBox.jsx            # Full-screen text display  
+│   │   ├── MenuChoices.jsx       # Choice selection interface  
+│   │   └── SceneDisplay.jsx      # Combined scene rendering  
+│   ├── hooks/  
+│   │   ├── useVisualNovel.js     # Main game hook  
+│   │   ├── useInterpreter.js     # Script execution hook  
+│   │   └── useDialogue.js        # Dialogue state hook  
+│   ├── parsers/  
+│   │   ├── MarkdownParser.js     # Parse Markdown to AST  
+│   │   ├── CommandParser.js      # Parse custom commands  
+│   │   └── ScriptValidator.js    # Validate script structure  
+│   ├── utils/  
+│   │   ├── CharacterRegistry.js  # Character definitions  
+│   │   ├── VariableStore.js      # Game variables  
+│   │   └── NavigationHelper.js   # Label/jump utilities  
+│   └── styles/  
+│       ├── dialogue.css          # Dialogue styling  
+│       └── components.css        # Component styles  
+├── scripts/  
+│   └── story.md                  # Your visual novel script  
+└── package.json  
+New SceneDisplay Component
+SceneDisplay.jsx
+const SceneDisplay = ({ scene }) => {  
+  return (  
+    <div className="scene-display">  
+      {scene && (  
+        <img   
+          src={`/scenes/${scene}.jpg`}  
+          alt={scene}  
+          className="scene-image"  
+        />  
+      )}  
+    </div>  
+  );  
+};
+Updated GameContainer.jsx
+import { useVisualNovel } from '../hooks/useVisualNovel';  
+import DialogueBox from './DialogueBox';  
+import MenuChoices from './MenuChoices';  
+import SceneDisplay from './SceneDisplay';  
+  
+const GameContainer = ({ script }) => {  
+  const {   
+    currentContent,   
+    choices,   
+    selectChoice,   
+    advance   
+  } = useVisualNovel(script);  
+  
+  return (  
+    <div className="game-container">  
+      <SceneDisplay scene={currentContent.scene} />  
+        
+      {currentContent.type === 'dialogue' && (  
+        <DialogueBox   
+          character={currentContent.character}  
+          text={currentContent.text}  
+          onAdvance={advance}  
+        />  
+      )}  
+        
+      {currentContent.type === 'choices' && (  
+        <MenuChoices   
+          choices={choices}  
+          onSelect={selectChoice}  
+        />  
+      )}  
+    </div>  
+  );  
+};
+Updated Markdown Script Format
+# start  
+scene: meadow_sylvie  
+**Narrator**: Welcome to our story!  
+  
+**Sylvie**: Hello! What would you like to do?  
+  
+[Play a game](#game_path)  
+[Read a book](#book_path)  
+  
+# game_path  
+scene: room_games  
+**Sylvie**: Games are fun! Let's play together.  
+  
+# book_path  
+scene: library_books  
+**Sylvie**: Books take you on adventures.
+Notes
+The core interpreter and game logic remain unchanged - only the rendering layer is simplified. The SceneDisplay component handles both background and character rendering through pre-composed images, similar to how Ren'Py's layered images work but simplified for your use case layeredimage.rst:5-16 .
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Your markdown script now includes scene: directives to specify which merged image to display, making asset management simpler while maintaining the same narrative flow.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Wiki pages you might want to explore:

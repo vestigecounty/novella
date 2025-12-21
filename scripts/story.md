@@ -1,9 +1,4 @@
-import GameContainer from "./components/GameContainer";
-import useVisualNovel from "./hooks/useVisualNovel";
-import "./App.css";
-
-// Sample story script
-const SAMPLE_SCRIPT = `# start
+# start
 scene: meadow_sylvie
 **Narrator**: Welcome to this simple visual novel!
 **Narrator**: You're standing in a beautiful meadow with your friend Sylvie.
@@ -97,36 +92,3 @@ scene: meadow_sylvie
 **Narrator**: You had a wonderful day together filled with laughter and adventure.
 **Narrator**: This is the end of this visual novel.
 **Narrator**: Feel free to play again and choose different paths to explore all the stories!
-`;
-
-function App() {
-  const {
-    currentContent,
-    choices,
-    scene,
-    isLoading,
-    error,
-    gameEnded,
-    advance,
-    selectChoice,
-    reset,
-  } = useVisualNovel(SAMPLE_SCRIPT);
-
-  return (
-    <div className="app">
-      <GameContainer
-        currentContent={currentContent}
-        choices={choices}
-        scene={scene}
-        isLoading={isLoading}
-        error={error}
-        gameEnded={gameEnded}
-        onAdvance={advance}
-        onSelectChoice={selectChoice}
-        onReset={reset}
-      />
-    </div>
-  );
-}
-
-export default App;

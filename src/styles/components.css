@@ -1,0 +1,157 @@
+/* Game Container Styles */
+.game-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+  color: white;
+  font-family: 'Arial', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-container.loading,
+.game-container.error,
+.game-container.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-message,
+.empty-message {
+  font-size: 24px;
+  color: #FFD700;
+  text-align: center;
+}
+
+.error-message {
+  font-size: 18px;
+  color: #ff6b6b;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  background: rgba(255, 107, 107, 0.1);
+  border: 2px solid #ff6b6b;
+  border-radius: 5px;
+  max-width: 500px;
+}
+
+/* Scene Display Styles */
+.scene-display {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scene-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: sceneTransition 0.5s ease-in-out;
+}
+
+@keyframes sceneTransition {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.scene-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #666;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .game-container {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .scene-display {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .game-container {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .scene-display {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-container {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .scene-display {
+    min-height: 200px;
+  }
+
+  .dialogue-box {
+    min-height: 100px;
+    padding: 10px;
+  }
+
+  .character-name {
+    font-size: 14px;
+  }
+
+  .dialogue-text {
+    font-size: 13px;
+  }
+}
+
+/* Loading and Error States */
+.game-container.loading {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.game-container.error {
+  background: #1a1a1a;
+  flex-direction: column;
+}
+
+/* Game End Message */
+.game-end {
+  background: rgba(0, 0, 0, 0.95);
+  border-top: 3px solid #FFD700;
+  padding: 40px;
+  text-align: center;
+  color: white;
+}
+
+.game-end h2 {
+  font-size: 36px;
+  color: #FFD700;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.game-end .reset-button {
+  margin-top: 20px;
+}
