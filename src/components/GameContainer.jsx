@@ -97,8 +97,8 @@ const GameContainer = ({
     const isLeftSwipe = distance > MIN_SWIPE_DISTANCE;
     const isRightSwipe = distance < -MIN_SWIPE_DISTANCE;
 
-    if (isRightSwipe) {
-      // Swipe right = go back
+    if (isLeftSwipe) {
+      // Swipe left = go back
       const now = Date.now();
       if (now - lastGoBackTimeRef.current >= GOBACK_THROTTLE_MS) {
         lastGoBackTimeRef.current = now;
