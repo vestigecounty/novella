@@ -30,20 +30,43 @@
 }
 
 .character-name {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     color: #ffd700;
     margin-bottom: 12px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    min-height: 1.2em;
 }
 
 .dialogue-text {
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1.6;
     color: #ffffff;
     margin-bottom: 15px;
     position: relative;
+    display: block;
+    width: 100%;
+}
+
+/* Container for text layout locking */
+.dialogue-text-container {
+    position: relative;
+    display: block;
+}
+
+/* Invisible text that locks the layout */
+.dialogue-text-invisible {
+    visibility: hidden;
+    display: block;
+    pointer-events: none;
+}
+
+/* Visible progressive text overlaid on top */
+.dialogue-text-visible {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .advance-icon {

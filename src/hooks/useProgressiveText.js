@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 
-const TYPING_SPEED = 50; // milliseconds per character
+const TYPING_SPEED = 30; // milliseconds per character
 
 export function useProgressiveText(text) {
   const [state, setState] = useState({

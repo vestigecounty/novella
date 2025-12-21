@@ -79,6 +79,7 @@ const GameContainer = ({
       {currentContent.type === "dialogue" && (
         <DialogueBox
           character={currentContent.character}
+          text={currentContent.text}
           displayedText={displayedText}
           isAllDone={isAllDone}
         />
