@@ -11,6 +11,8 @@ export class GameStateManager {
 
     this.currentSectionIndex = 0;
     this.currentContentIndex = 0;
+    this.navigationHistory = [{ sectionIndex: 0, contentIndex: 0 }];
+    this.navigationIndex = 0;
     this.visitedSections = new Set();
     this.playHistory = [];
     this.saveStates = new Map();
@@ -29,6 +31,8 @@ export class GameStateManager {
 
     this.currentSectionIndex = startIndex;
     this.currentContentIndex = 0;
+    this.navigationHistory = [{ sectionIndex: startIndex, contentIndex: 0 }];
+    this.navigationIndex = 0;
     this.visitedSections.clear();
     this.playHistory = [];
     this.variables.clear();
@@ -88,9 +92,44 @@ export class GameStateManager {
 
     if (this.currentContentIndex < section.content.length - 1) {
       this.currentContentIndex++;
+      // Remove any future history if we're not at the end
+      if (this.navigationIndex < this.navigationHistory.length - 1) {
+        this.navigationHistory = this.navigationHistory.slice(
+          0,
+          this.navigationIndex + 1,
+        );
+      }
+      this.navigationHistory.push({
+        sectionIndex: this.currentSectionIndex,
+        contentIndex: this.currentContentIndex,
+      });
+      this.navigationIndex++;
       this.addToPlayHistory({
         type: "advance",
         label: this.getCurrentLabel(),
+        contentIndex: this.currentContentIndex,
+      });
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Go back to previous navigation state
+   * @returns {boolean} True if went back, false if at start of navigation history
+   */
+  goBack() {
+    if (this.navigationIndex > 0) {
+      this.navigationIndex--;
+      const previousState = this.navigationHistory[this.navigationIndex];
+      this.currentSectionIndex = previousState.sectionIndex;
+      this.currentContentIndex = previousState.contentIndex;
+
+      this.addToPlayHistory({
+        type: "goBack",
+        label: this.getCurrentLabel(),
+        sectionIndex: this.currentSectionIndex,
         contentIndex: this.currentContentIndex,
       });
       return true;
@@ -113,6 +152,18 @@ export class GameStateManager {
 
     this.currentSectionIndex = targetIndex;
     this.currentContentIndex = 0;
+    // Remove any future history if we're not at the end
+    if (this.navigationIndex < this.navigationHistory.length - 1) {
+      this.navigationHistory = this.navigationHistory.slice(
+        0,
+        this.navigationIndex + 1,
+      );
+    }
+    this.navigationHistory.push({
+      sectionIndex: this.currentSectionIndex,
+      contentIndex: this.currentContentIndex,
+    });
+    this.navigationIndex++;
     this.markSectionVisited();
 
     this.addToPlayHistory({
@@ -132,6 +183,18 @@ export class GameStateManager {
     if (this.currentSectionIndex < this.ast.sections.length - 1) {
       this.currentSectionIndex++;
       this.currentContentIndex = 0;
+      // Remove any future history if we're not at the end
+      if (this.navigationIndex < this.navigationHistory.length - 1) {
+        this.navigationHistory = this.navigationHistory.slice(
+          0,
+          this.navigationIndex + 1,
+        );
+      }
+      this.navigationHistory.push({
+        sectionIndex: this.currentSectionIndex,
+        contentIndex: this.currentContentIndex,
+      });
+      this.navigationIndex++;
       this.markSectionVisited();
       return true;
     }
@@ -226,6 +289,8 @@ export class GameStateManager {
       timestamp: Date.now(),
       sectionIndex: this.currentSectionIndex,
       contentIndex: this.currentContentIndex,
+      navigationHistory: [...this.navigationHistory],
+      navigationIndex: this.navigationIndex,
       variables: this.variables.getAll(),
       visited: Array.from(this.visitedSections),
       history: this.getPlayHistory(),
@@ -249,6 +314,15 @@ export class GameStateManager {
 
     this.currentSectionIndex = saveState.sectionIndex;
     this.currentContentIndex = saveState.contentIndex;
+    this.navigationHistory = saveState.navigationHistory
+      ? [...saveState.navigationHistory]
+      : [
+          {
+            sectionIndex: this.currentSectionIndex,
+            contentIndex: this.currentContentIndex,
+          },
+        ];
+    this.navigationIndex = saveState.navigationIndex ?? 0;
     this.variables.setAll(saveState.variables);
     this.visitedSections = new Set(saveState.visited);
     this.playHistory = [...saveState.history];
@@ -312,6 +386,8 @@ export class GameStateManager {
   reset() {
     this.currentSectionIndex = 0;
     this.currentContentIndex = 0;
+    this.navigationHistory = [{ sectionIndex: 0, contentIndex: 0 }];
+    this.navigationIndex = 0;
     this.visitedSections.clear();
     this.playHistory = [];
     this.initialize();

@@ -12,6 +12,7 @@ function App() {
     error,
     gameEnded,
     advance,
+    goBack,
     selectChoice,
     reset,
   } = useVisualNovel(storyScript);
@@ -26,6 +27,7 @@ function App() {
         error={error}
         gameEnded={gameEnded}
         onAdvance={advance}
+        onGoBack={goBack}
         onSelectChoice={selectChoice}
         onReset={reset}
       />

@@ -9,7 +9,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 const TYPING_SPEED = 30; // milliseconds per character
 const COMMA_PAUSE = 150; // milliseconds pause after comma
 
-export function useProgressiveText(text) {
+export function useProgressiveText(text, skipAnimation = false) {
   const [state, setState] = useState({
     displayedText: "",
     currentSentenceIndex: 0,
@@ -69,14 +69,30 @@ export function useProgressiveText(text) {
 
   // Initialize sentences on text change
   useEffect(() => {
+    // Cancel any ongoing animation when text changes
+    if (animationRef.current) {
+      clearTimeout(animationRef.current);
+      animationRef.current = null;
+    }
+
     const newSentences = splitIntoSentences(text);
     sentencesRef.current = newSentences;
     charIndexRef.current = 0;
     prevSentenceIndexRef.current = 0;
-    displayedTextRef.current = "";
 
-    // Defer setState to next frame to satisfy linter
-    requestAnimationFrame(() => {
+    if (skipAnimation) {
+      // Show full text immediately without animation
+      displayedTextRef.current = text || "";
+      setState({
+        displayedText: text || "",
+        currentSentenceIndex: newSentences.length - 1,
+        isAnimating: false,
+        isComplete: true,
+        totalSentenceCount: newSentences.length,
+      });
+    } else {
+      // Reset and start animation
+      displayedTextRef.current = "";
       setState({
         displayedText: "",
         currentSentenceIndex: 0,
@@ -84,8 +100,8 @@ export function useProgressiveText(text) {
         isComplete: false,
         totalSentenceCount: newSentences.length,
       });
-    });
-  }, [text, splitIntoSentences]);
+    }
+  }, [text, splitIntoSentences, skipAnimation]);
 
   // Reset character index when moving to a new sentence
   useEffect(() => {

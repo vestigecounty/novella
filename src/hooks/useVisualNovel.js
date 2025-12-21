@@ -192,6 +192,42 @@ export function useVisualNovel(scriptText) {
     setChoices([]);
   }, [gameEnded]);
 
+  // Go back to previous content
+  const goBack = useCallback(() => {
+    if (!gameStateRef.current || gameEnded) {
+      return;
+    }
+
+    const gameState = gameStateRef.current;
+
+    if (gameState.goBack()) {
+      const newContent = gameState.getCurrentContent();
+      const newSection = gameState.getCurrentSection();
+      const newScene = newSection?.metadata?.scene;
+      setScene(newScene);
+
+      if (newContent?.type === "dialogue") {
+        setCurrentContent({
+          type: "dialogue",
+          character: newContent.character,
+          text: newContent.text,
+          displayName: newContent.character,
+          color: charactersRef.current.getColor(newContent.character),
+        });
+        setChoices([]);
+      } else if (newContent?.type === "choice") {
+        const sectionChoices = newSection.content.filter(
+          (item) => item.type === "choice",
+        );
+        setCurrentContent({
+          type: "choices",
+          choices: sectionChoices,
+        });
+        setChoices(sectionChoices);
+      }
+    }
+  }, [gameEnded]);
+
   // Handle choice selection
   const selectChoice = useCallback((targetLabel) => {
     if (!gameStateRef.current) {
@@ -304,6 +340,7 @@ export function useVisualNovel(scriptText) {
     error,
     gameEnded,
     advance,
+    goBack,
     selectChoice,
     reset,
   };
