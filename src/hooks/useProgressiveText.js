@@ -1,6 +1,7 @@
 /**
  * useProgressiveText.js
  * Hook for progressive text display with sentence-based animation
+ * Optimized for mobile performance with batched updates
  */
 
 import { useState, useEffect, useCallback, useRef } from "react";
@@ -21,6 +22,7 @@ export function useProgressiveText(text) {
   const charIndexRef = useRef(0);
   const sentencesRef = useRef([]);
   const prevSentenceIndexRef = useRef(0);
+  const displayedTextRef = useRef(""); // Cache displayed text to avoid substring calls
 
   // Split text into sentences
   const splitIntoSentences = useCallback((fullText) => {
@@ -71,6 +73,7 @@ export function useProgressiveText(text) {
     sentencesRef.current = newSentences;
     charIndexRef.current = 0;
     prevSentenceIndexRef.current = 0;
+    displayedTextRef.current = "";
 
     // Defer setState to next frame to satisfy linter
     requestAnimationFrame(() => {
@@ -88,6 +91,7 @@ export function useProgressiveText(text) {
   useEffect(() => {
     if (state.currentSentenceIndex !== prevSentenceIndexRef.current) {
       charIndexRef.current = 0;
+      displayedTextRef.current = "";
       prevSentenceIndexRef.current = state.currentSentenceIndex;
     }
   }, [state.currentSentenceIndex]);
@@ -106,17 +110,18 @@ export function useProgressiveText(text) {
 
     const animate = () => {
       if (charIndexRef.current < currentSentence.length) {
+        const currentChar = currentSentence[charIndexRef.current];
+        displayedTextRef.current += currentChar;
+        charIndexRef.current++;
+
         setState((prev) => ({
           ...prev,
-          displayedText: currentSentence.substring(0, charIndexRef.current + 1),
+          displayedText: displayedTextRef.current,
         }));
-
-        const currentChar = currentSentence[charIndexRef.current];
-        charIndexRef.current++;
 
         // Use longer pause for commas
         const delay =
-          currentChar === "," || currentChar === "..."
+          currentChar === "," || currentChar === "."
             ? COMMA_PAUSE
             : TYPING_SPEED;
         animationRef.current = setTimeout(animate, delay);
@@ -153,6 +158,7 @@ export function useProgressiveText(text) {
 
       const currentSentence = sentencesRef.current[state.currentSentenceIndex];
       charIndexRef.current = currentSentence.length;
+      displayedTextRef.current = currentSentence;
 
       setState((prev) => ({
         ...prev,
