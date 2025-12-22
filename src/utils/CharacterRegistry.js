@@ -6,6 +6,7 @@
 export class CharacterRegistry {
   constructor() {
     this.characters = new Map();
+    this.aliases = new Map(); // Maps alias to full character id
     this.registerDefaultCharacters();
   }
 
@@ -13,10 +14,10 @@ export class CharacterRegistry {
    * Register default characters
    */
   registerDefaultCharacters() {
-    this.register('Narrator', {
-      name: 'Narrator',
-      color: '#FFFFFF',
-      displayName: 'Narrator'
+    this.register("Narrator", {
+      name: "Narrator",
+      color: "#FFFFFF",
+      displayName: "Narrator",
     });
   }
 
@@ -29,10 +30,10 @@ export class CharacterRegistry {
     this.characters.set(id, {
       id,
       name: data.name || id,
-      color: data.color || '#FFFFFF',
+      color: data.color || "#FFFFFF",
       displayName: data.displayName || data.name || id,
       image: data.image || null,
-      ...data
+      ...data,
     });
   }
 
@@ -93,7 +94,7 @@ export class CharacterRegistry {
    */
   getColor(id) {
     const character = this.get(id);
-    return character ? character.color : '#FFFFFF';
+    return character ? character.color : "#FFFFFF";
   }
 
   /**
@@ -104,6 +105,42 @@ export class CharacterRegistry {
   getDisplayName(id) {
     const character = this.get(id);
     return character ? character.displayName : id;
+  }
+
+  /**
+   * Register a character with an alias
+   * @param {string} fullName - Full character name
+   * @param {string} alias - Character alias
+   * @param {string} color - Character color
+   */
+  registerAlias(fullName, alias, color) {
+    // Register character using alias as key
+    this.register(alias, {
+      name: fullName,
+      color: color,
+      displayName: fullName,
+      alias: alias,
+    });
+    // Map alias to the full character id
+    this.aliases.set(alias, alias);
+  }
+
+  /**
+   * Resolve a character id through alias if needed
+   * @param {string} id - Character id or alias
+   * @returns {string} Resolved character id
+   */
+  resolveId(id) {
+    return this.aliases.get(id) || id;
+  }
+
+  /**
+   * Check if an alias exists
+   * @param {string} alias - Alias to check
+   * @returns {boolean}
+   */
+  hasAlias(alias) {
+    return this.aliases.has(alias);
   }
 }
 

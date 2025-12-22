@@ -49,7 +49,8 @@ export function useProgressiveText(text, skipAnimation = false) {
         // Don't end if ? is followed by ! (treat ?! as single ending)
         if (
           !(char === "." && fullText[i + 1] === ".") &&
-          !(char === "?" && fullText[i + 1] === "!")
+          !(char === "?" && fullText[i + 1] === "!") &&
+          !(char === "." && fullText[i + 1] === ")")
         ) {
           result.push(current.trim());
           current = "";

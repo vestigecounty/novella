@@ -81,14 +81,41 @@ export class MarkdownParser {
         continue;
       }
 
-      // Detect dialogue lines (**Character**: text)
+      // Detect dialogue lines (**Character**: text) with optional alias definition
+      // Supports: **Character (alias, #color)**: text
       const dialogueMatch = trimmed.match(/^\*\*(.+?)\*\*:\s*(.*)$/);
       if (dialogueMatch) {
-        currentContent.push({
-          type: "dialogue",
-          character: dialogueMatch[1],
-          text: dialogueMatch[2],
-        });
+        const characterPart = dialogueMatch[1];
+        const text = dialogueMatch[2];
+
+        // Check if character part has alias syntax: Name (alias, #color)
+        // Support both ASCII and Cyrillic characters for alias
+        const aliasMatch = characterPart.match(
+          /^(.+?)\s*\(\s*([\w\u0400-\u04FF]+)\s*,\s*(#[\dA-Fa-f]{6})\s*\)$/,
+        );
+
+        if (aliasMatch) {
+          const fullName = aliasMatch[1].trim();
+          const alias = aliasMatch[2].trim();
+          const color = aliasMatch[3].trim();
+
+          currentContent.push({
+            type: "dialogue",
+            character: alias,
+            text: text,
+            characterDef: {
+              alias: alias,
+              fullName: fullName,
+              color: color,
+            },
+          });
+        } else {
+          currentContent.push({
+            type: "dialogue",
+            character: characterPart,
+            text: text,
+          });
+        }
         continue;
       }
 

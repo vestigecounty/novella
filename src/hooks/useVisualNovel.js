@@ -65,19 +65,15 @@ export function useVisualNovel(scriptText, skipReset = false) {
       // Initialize all components
       const characters = new CharacterRegistry();
 
-      // Register МС with custom color
-      characters.register("МС", {
-        name: "МС",
-        color: "#FF6B9D",
-        displayName: "МС",
-      });
-
-      // Register Г (protagonist) with custom color
-      characters.register("Г", {
-        name: "Г",
-        color: "#87CEEB",
-        displayName: "Г",
-      });
+      // Scan AST for aliased characters and register them
+      for (const section of ast.sections) {
+        for (const item of section.content) {
+          if (item.type === "dialogue" && item.characterDef) {
+            const { alias, fullName, color } = item.characterDef;
+            characters.registerAlias(fullName, alias, color);
+          }
+        }
+      }
 
       charactersRef.current = characters;
 
@@ -124,9 +120,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
       if (initialContent?.type === "dialogue") {
         setCurrentContent({
           type: "dialogue",
-          character: initialContent.character,
+          character: characters.getDisplayName(initialContent.character),
           text: initialContent.text,
-          displayName: initialContent.character,
+          displayName: characters.getDisplayName(initialContent.character),
           color: characters.getColor(initialContent.character),
         });
       } else if (initialContent?.type === "choices") {
@@ -177,9 +173,13 @@ export function useVisualNovel(scriptText, skipReset = false) {
         if (nextContent?.type === "dialogue") {
           setCurrentContent({
             type: "dialogue",
-            character: nextContent.character,
+            character: charactersRef.current.getDisplayName(
+              nextContent.character,
+            ),
             text: nextContent.text,
-            displayName: nextContent.character,
+            displayName: charactersRef.current.getDisplayName(
+              nextContent.character,
+            ),
             color: charactersRef.current.getColor(nextContent.character),
           });
           setChoices([]);
@@ -202,9 +202,13 @@ export function useVisualNovel(scriptText, skipReset = false) {
           if (furtherContent?.type === "dialogue") {
             setCurrentContent({
               type: "dialogue",
-              character: furtherContent.character,
+              character: charactersRef.current.getDisplayName(
+                furtherContent.character,
+              ),
               text: furtherContent.text,
-              displayName: furtherContent.character,
+              displayName: charactersRef.current.getDisplayName(
+                furtherContent.character,
+              ),
               color: charactersRef.current.getColor(furtherContent.character),
             });
             setChoices([]);
@@ -222,9 +226,11 @@ export function useVisualNovel(scriptText, skipReset = false) {
       } else if (newContent?.type === "dialogue") {
         setCurrentContent({
           type: "dialogue",
-          character: newContent.character,
+          character: charactersRef.current.getDisplayName(newContent.character),
           text: newContent.text,
-          displayName: newContent.character,
+          displayName: charactersRef.current.getDisplayName(
+            newContent.character,
+          ),
           color: charactersRef.current.getColor(newContent.character),
         });
         setChoices([]);
@@ -260,9 +266,13 @@ export function useVisualNovel(scriptText, skipReset = false) {
         if (nextContent?.type === "dialogue") {
           setCurrentContent({
             type: "dialogue",
-            character: nextContent.character,
+            character: charactersRef.current.getDisplayName(
+              nextContent.character,
+            ),
             text: nextContent.text,
-            displayName: nextContent.character,
+            displayName: charactersRef.current.getDisplayName(
+              nextContent.character,
+            ),
             color: charactersRef.current.getColor(nextContent.character),
           });
           setChoices([]);
@@ -284,9 +294,13 @@ export function useVisualNovel(scriptText, skipReset = false) {
           if (furtherContent?.type === "dialogue") {
             setCurrentContent({
               type: "dialogue",
-              character: furtherContent.character,
+              character: charactersRef.current.getDisplayName(
+                furtherContent.character,
+              ),
               text: furtherContent.text,
-              displayName: furtherContent.character,
+              displayName: charactersRef.current.getDisplayName(
+                furtherContent.character,
+              ),
               color: charactersRef.current.getColor(furtherContent.character),
             });
             setChoices([]);
@@ -304,9 +318,11 @@ export function useVisualNovel(scriptText, skipReset = false) {
       } else if (newContent?.type === "dialogue") {
         setCurrentContent({
           type: "dialogue",
-          character: newContent.character,
+          character: charactersRef.current.getDisplayName(newContent.character),
           text: newContent.text,
-          displayName: newContent.character,
+          displayName: charactersRef.current.getDisplayName(
+            newContent.character,
+          ),
           color: charactersRef.current.getColor(newContent.character),
         });
         setChoices([]);
@@ -361,9 +377,11 @@ export function useVisualNovel(scriptText, skipReset = false) {
       } else if (newContent?.type === "dialogue") {
         setCurrentContent({
           type: "dialogue",
-          character: newContent.character,
+          character: charactersRef.current.getDisplayName(newContent.character),
           text: newContent.text,
-          displayName: newContent.character,
+          displayName: charactersRef.current.getDisplayName(
+            newContent.character,
+          ),
           color: charactersRef.current.getColor(newContent.character),
         });
         setChoices([]);
@@ -406,9 +424,13 @@ export function useVisualNovel(scriptText, skipReset = false) {
         if (nextContent?.type === "dialogue") {
           setCurrentContent({
             type: "dialogue",
-            character: nextContent.character,
+            character: charactersRef.current.getDisplayName(
+              nextContent.character,
+            ),
             text: nextContent.text,
-            displayName: nextContent.character,
+            displayName: charactersRef.current.getDisplayName(
+              nextContent.character,
+            ),
             color: charactersRef.current.getColor(nextContent.character),
           });
           setChoices([]);
@@ -430,9 +452,13 @@ export function useVisualNovel(scriptText, skipReset = false) {
           if (furtherContent?.type === "dialogue") {
             setCurrentContent({
               type: "dialogue",
-              character: furtherContent.character,
+              character: charactersRef.current.getDisplayName(
+                furtherContent.character,
+              ),
               text: furtherContent.text,
-              displayName: furtherContent.character,
+              displayName: charactersRef.current.getDisplayName(
+                furtherContent.character,
+              ),
               color: charactersRef.current.getColor(furtherContent.character),
             });
             setChoices([]);
@@ -450,9 +476,11 @@ export function useVisualNovel(scriptText, skipReset = false) {
       } else if (newContent?.type === "dialogue") {
         setCurrentContent({
           type: "dialogue",
-          character: newContent.character,
+          character: charactersRef.current.getDisplayName(newContent.character),
           text: newContent.text,
-          displayName: newContent.character,
+          displayName: charactersRef.current.getDisplayName(
+            newContent.character,
+          ),
           color: charactersRef.current.getColor(newContent.character),
         });
         setChoices([]);
@@ -491,6 +519,17 @@ export function useVisualNovel(scriptText, skipReset = false) {
         }
 
         const characters = new CharacterRegistry();
+
+        // Scan AST for aliased characters and register them
+        for (const section of ast.sections) {
+          for (const item of section.content) {
+            if (item.type === "dialogue" && item.characterDef) {
+              const { alias, fullName, color } = item.characterDef;
+              characters.registerAlias(fullName, alias, color);
+            }
+          }
+        }
+
         const variables = new VariableStore();
         const navigation = new NavigationHelper(ast);
         const dialogue = new DialogueProcessor(characters, variables);
@@ -520,9 +559,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
         if (initialContent?.type === "dialogue") {
           setCurrentContent({
             type: "dialogue",
-            character: initialContent.character,
+            character: characters.getDisplayName(initialContent.character),
             text: initialContent.text,
-            displayName: initialContent.character,
+            displayName: characters.getDisplayName(initialContent.character),
             color: characters.getColor(initialContent.character),
           });
           setChoices([]);
