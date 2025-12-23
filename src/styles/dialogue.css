@@ -331,30 +331,28 @@
     width: 33.333%;
 }
 
-/* Size variants */
+/* Sprite styles */
 .sprite {
+    width: auto;
+    max-width: none;
     object-fit: contain;
-    object-position: bottom center;
-    width: 100%;
-    height: auto;
-    max-width: 100%;
     animation: spriteAppear 0.3s ease-in-out;
 }
 
 .sprite.sm {
-    max-height: 40vh;
+    height: 30vh;
 }
 
 .sprite.m {
-    max-height: 60vh;
+    height: 50vh;
 }
 
 .sprite.lg {
-    max-height: 80vh;
+    height: 70vh;
 }
 
 .sprite.xl {
-    max-height: 100vh;
+    height: 90vh;
 }
 
 @keyframes spriteAppear {
@@ -365,42 +363,5 @@
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-/* Responsive sprite sizing */
-@media (max-width: 768px) {
-    .sprite.sm {
-        max-height: 30vh;
-    }
-
-    .sprite.m {
-        max-height: 45vh;
-    }
-
-    .sprite.lg {
-        max-height: 60vh;
-    }
-
-    .sprite.xl {
-        max-height: 80vh;
-    }
-}
-
-@media (max-width: 768px) and (orientation: landscape) {
-    .sprite.sm {
-        max-height: 20vh;
-    }
-
-    .sprite.m {
-        max-height: 30vh;
-    }
-
-    .sprite.lg {
-        max-height: 40vh;
-    }
-
-    .sprite.xl {
-        max-height: 60vh;
     }
 }

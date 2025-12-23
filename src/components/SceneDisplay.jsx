@@ -6,6 +6,7 @@
 
 import React from "react";
 import "../styles/components.css";
+import "../styles/dialogue.css";
 
 const SceneDisplay = ({ scene, pose, sprites = [] }) => {
   // Construct image path with pose if available
@@ -23,7 +24,11 @@ const SceneDisplay = ({ scene, pose, sprites = [] }) => {
           alt={pose ? `${scene} (${pose})` : scene}
           className="scene-image"
           onError={(e) => {
+            console.error(`Failed to load scene image: ${imagePath}`, e);
             e.target.style.display = "none";
+          }}
+          onLoad={(e) => {
+            e.target.style.display = "block";
           }}
         />
       ) : (
@@ -34,10 +39,10 @@ const SceneDisplay = ({ scene, pose, sprites = [] }) => {
       {sprites && sprites.length > 0 && (
         <div className="sprite-layer">
           {sprites.map((sprite, index) => {
-            // Use character name directly as filename, optionally with pose suffix
             const spriteImagePath = sprite.pose
               ? `/sprites/${sprite.character}-${sprite.pose}.png`
               : `/sprites/${sprite.character}.png`;
+
             return (
               <div
                 key={`${sprite.character}-${index}`}
