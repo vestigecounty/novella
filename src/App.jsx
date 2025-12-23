@@ -25,6 +25,7 @@ function App() {
     choices,
     scene,
     pose,
+    sprites,
     isLoading,
     error,
     gameEnded,
@@ -48,6 +49,7 @@ function App() {
         choices={choices}
         scene={scene}
         pose={pose}
+        sprites={sprites}
         isLoading={isLoading}
         error={error}
         gameEnded={gameEnded}

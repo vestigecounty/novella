@@ -290,3 +290,117 @@
         font-size: 13px;
     }
 }
+
+/* Sprite Styles */
+.sprite-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+
+.sprite-container {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Position variants */
+.sprite-container.left-third {
+    left: 0;
+    width: 33.333%;
+}
+
+.sprite-container.center {
+    left: 33.333%;
+    width: 33.333%;
+}
+
+.sprite-container.right-third {
+    left: 66.666%;
+    width: 33.333%;
+}
+
+/* Size variants */
+.sprite {
+    object-fit: contain;
+    object-position: bottom center;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    animation: spriteAppear 0.3s ease-in-out;
+}
+
+.sprite.sm {
+    max-height: 40vh;
+}
+
+.sprite.m {
+    max-height: 60vh;
+}
+
+.sprite.lg {
+    max-height: 80vh;
+}
+
+.sprite.xl {
+    max-height: 100vh;
+}
+
+@keyframes spriteAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive sprite sizing */
+@media (max-width: 768px) {
+    .sprite.sm {
+        max-height: 30vh;
+    }
+
+    .sprite.m {
+        max-height: 45vh;
+    }
+
+    .sprite.lg {
+        max-height: 60vh;
+    }
+
+    .sprite.xl {
+        max-height: 80vh;
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .sprite.sm {
+        max-height: 20vh;
+    }
+
+    .sprite.m {
+        max-height: 30vh;
+    }
+
+    .sprite.lg {
+        max-height: 40vh;
+    }
+
+    .sprite.xl {
+        max-height: 60vh;
+    }
+}

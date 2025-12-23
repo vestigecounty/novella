@@ -76,6 +76,35 @@ export class MarkdownParser {
         continue;
       }
 
+      // Detect sprite directive (sprite: character position size)
+      // Format: sprite: МС left-third lg or sprite: prosphor-amused left-third lg
+      // Sprites are treated as content items, not metadata, so they can change during gameplay
+      const spriteMatch = trimmed.match(
+        /^sprite:\s+([\w\u0400-\u04FF]+(?:-[\w\u0400-\u04FF]+)*)\s+(\w+(?:-\w+)?)\s+(\w+)\s*$/,
+      );
+      if (spriteMatch) {
+        const character = spriteMatch[1];
+        const position = spriteMatch[2]; // left-third, center, right-third
+        const size = spriteMatch[3]; // sm, m, lg, xl
+
+        // Create a sprite content item so it can be processed during gameplay
+        currentContent.push({
+          type: "sprite",
+          character: character,
+          position: position,
+          size: size,
+        });
+        continue;
+      }
+
+      // Detect sprite directive with no parameters (hides all sprites)
+      if (trimmed === "sprite:") {
+        currentContent.push({
+          type: "hide-sprites",
+        });
+        continue;
+      }
+
       // Skip empty lines
       if (!trimmed) {
         continue;
