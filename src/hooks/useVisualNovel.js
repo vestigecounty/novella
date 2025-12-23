@@ -12,6 +12,7 @@ import NavigationHelper from "../utils/NavigationHelper";
 import DialogueProcessor from "../core/DialogueProcessor";
 import GameStateManager from "../core/GameStateManager";
 import MarkdownInterpreter from "../core/MarkdownInterpreter";
+import AssetPreloader from "../utils/AssetPreloader";
 
 export function useVisualNovel(scriptText, skipReset = false) {
   const [currentContent, setCurrentContent] = useState(null);
@@ -28,6 +29,26 @@ export function useVisualNovel(scriptText, skipReset = false) {
   const charactersRef = useRef(null);
   const initializedRef = useRef(false);
   const currentPositionRef = useRef(null);
+  const preloaderRef = useRef(new AssetPreloader());
+
+  // Helper function to preload upcoming assets
+  const preloadUpcomingAssets = useCallback(() => {
+    if (!gameStateRef.current) return;
+
+    const gameState = gameStateRef.current;
+    const preloader = preloaderRef.current;
+    const upcomingAssets = preloader.extractUpcomingAssets(
+      gameState.ast,
+      gameState.currentSectionIndex,
+      gameState.currentContentIndex,
+    );
+
+    if (upcomingAssets.length > 0) {
+      preloader.preloadImages(upcomingAssets).catch((err) => {
+        console.error("Error preloading assets:", err);
+      });
+    }
+  }, []);
 
   // Helper function to skip pose, sprite, and hide-sprites items and update state
   const skipNonContentItems = (gameState, setterFunctions = {}) => {
@@ -67,6 +88,11 @@ export function useVisualNovel(scriptText, skipReset = false) {
     }
     return content;
   };
+
+  // Preload upcoming assets whenever content changes
+  useEffect(() => {
+    preloadUpcomingAssets();
+  }, [currentContent, preloadUpcomingAssets]);
 
   // Initialize game engine on script load
   useEffect(() => {
