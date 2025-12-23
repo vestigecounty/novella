@@ -118,8 +118,13 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.95);
-    padding: 30px;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.7) 80%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    padding: 80px;
     padding-bottom: calc(30px + env(safe-area-inset-bottom));
     z-index: 10;
     box-sizing: border-box;
