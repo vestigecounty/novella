@@ -107,13 +107,13 @@ sprite: trashman-wise right-third lg
 [Вы умерли](#end_scene)
 
 # bribe_path
-scene: trashman
+scene: yard
 
 **Г**: (Достает из кармана печенье "Юбилейное") Вот, держите! Голуби, угощайтесь! Может, им французский багет уже надоел?
 
 Голуби радостно слетаются к Герою и начинают клевать печеньку. Мусорный Страж удивленно наблюдает за этим.
 
-sprite: trashman-thinking left lg
+sprite: trashman-thinking right-third lg
 
 **МС**: Ого… "Юбилейное"! Эти голуби-снобы любят разнообразие! Молодец, парень, ты их подкупил! Они обычно нос воротят от всего не французского.
 
@@ -124,7 +124,7 @@ scene: pigeon_achievement
 
 **Г**: (Улыбается) Кажется, я им понравился. Он даже заурчал!
 
-sprite: trashman-wise left lg
+sprite: trashman-wise right-third lg
 
 **МС**: Понравился! Теперь у тебя есть голубиная свита. Если заблудишься – просто свистни, они приведут к ближайшей шаверме или пивнушке. А если кто-то будет с тобой спорить - они его закидают! 
 
@@ -148,6 +148,7 @@ sprite: trashman-pointing center lg
 
 [На Кузнечный переулок к дедам](#kuku)
 [На угол Почтового к кошке](#matriarch_cat)
+
 # kuku
 scene: kuku
 
@@ -178,7 +179,11 @@ sprite: el-annoyed right-third lg
 
 sprite: prosphor-indignated left-third lg
 
-**П**: (Надувшись) Завитушки?! Ну да, конечно, проще всего построить еще один унылый кубик. Кукутучуевск должен быть поэмой в камне!
+**П**: (Надувшись) Завитушки?! Ну да, конечно, проще всего построить еще один унылый кубик.
+
+sprite: prosphor-amused left-third lg
+
+**П**: Кукутучуевск должен быть поэмой в камне!
 
 sprite: el-annoyed right-third lg
 
@@ -198,16 +203,22 @@ sprite: el-annoyed right-third lg
 
 
 # matriarch_cat
-scene: pigeon_achievement
+scene: attic
 
 **(Г свистит, и стая голубей взлетает, указывая ему угол Почтового и Соляного переулков.)**
 
 На сцене появляется кошка-матриарх.
 
+sprite: matriarch-side center lg
+
 **Кошка-матриарх (КМ, #594157)**: (Читает рэп) Ночь на дворе, и я не знаю куда
 **КМ**: Дорогая миска и дорогая вода
 **КМ**: Мягкие лапки, мягкие слова
 **КМ**: Вижу свой корм, я такая, о да
+
+sprite: matriarch-licking center lg
+
+**КМ**: Стырила твою рыбку, пока ты спал, не вор — не пойман
 # end_scene
 scene: intro1
 **Narrator**: Thank you for spending time with us!
