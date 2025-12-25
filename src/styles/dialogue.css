@@ -72,6 +72,29 @@
     overflow: hidden;
 }
 
+/* Special handling when video is present */
+.dialogue-text-container:has(.video-player-container) {
+    height: auto;
+    min-height: 128px;
+    overflow: visible;
+    display: flex;
+    align-items: center;
+}
+
+/* Hide the invisible text spacer when video present */
+.dialogue-text-container:has(.video-player-container) .dialogue-text-invisible {
+    display: none;
+}
+
+/* Add padding to the visible text when video is present */
+.dialogue-text-container:has(.video-player-container) .dialogue-text-visible {
+    padding-right: 144px; /* 128px video + 16px margin */
+    flex: 1;
+    min-height: 128px;
+    display: flex;
+    align-items: center;
+}
+
 /* Invisible text that locks the layout */
 .dialogue-text-invisible {
     visibility: hidden;

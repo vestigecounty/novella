@@ -66,11 +66,8 @@ export function useVisualNovel(scriptText, skipReset = false) {
           setterFunctions.setPose(content.pose);
         }
       } else if (content.type === "video") {
-        // Video items should be merged with following dialogue
-        // Don't return yet, continue to next content
-        gameState.advance();
-        content = gameState.getCurrentContent();
-        continue;
+        // Video items are treated as dialogue content
+        return content;
       } else if (content.type === "sprite") {
         // Merge sprite with existing sprites or replace based on character
         spritesList = spritesList.filter(
@@ -195,6 +192,11 @@ export function useVisualNovel(scriptText, skipReset = false) {
           text: initialContent.text,
           displayName: characters.getDisplayName(initialContent.character),
           color: characters.getColor(initialContent.character),
+        });
+      } else if (initialContent?.type === "video") {
+        setCurrentContent({
+          type: "video",
+          src: initialContent.src,
         });
       } else if (initialContent?.type === "choices") {
         // Collect all choices in section
@@ -405,6 +407,12 @@ export function useVisualNovel(scriptText, skipReset = false) {
         setCurrentContent(
           createDialogueContent(newContent.character, newContent.text),
         );
+        setChoices([]);
+      } else if (newContent?.type === "video") {
+        setCurrentContent({
+          type: "video",
+          src: newContent.src,
+        });
         setChoices([]);
       } else if (newContent?.type === "choice") {
         const sectionChoices = newSection.content.filter(

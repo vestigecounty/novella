@@ -4,31 +4,45 @@
  * Optimized with React.memo to prevent unnecessary re-renders
  */
 
-import React, { memo } from "react";
+import React, { memo, useRef, useEffect } from "react";
 import { Mouse } from "lucide-react";
 import Achievement from "./Achievement";
+import VideoPlayer from "./VideoPlayer";
 import "../styles/dialogue.css";
 
 const DialogueBox = memo(
   ({ character, displayedText, isAllDone, text, color }) => {
-    // Parse text on-demand to find achievement badges
+    // Parse text on-demand to find achievement badges and videos
     const parseText = (fullText) => {
       const parts = [];
       let lastIndex = 0;
-      const boldRegex = /\*\*(.*?)\*\*/g;
+
+      // Combined regex for both achievements and videos
+      const combinedRegex = /(\*\*(.*?)\*\*|\[video:([^\]]+)\])/g;
       let match;
 
-      while ((match = boldRegex.exec(fullText)) !== null) {
+      while ((match = combinedRegex.exec(fullText)) !== null) {
         if (match.index > lastIndex) {
           parts.push({
             type: "text",
             content: fullText.substring(lastIndex, match.index),
           });
         }
-        parts.push({
-          type: "achievement",
-          content: match[1],
-        });
+
+        if (match[0].startsWith("**")) {
+          // Achievement
+          parts.push({
+            type: "achievement",
+            content: match[2],
+          });
+        } else if (match[0].startsWith("[video:")) {
+          // Video
+          parts.push({
+            type: "video",
+            content: match[3],
+          });
+        }
+
         lastIndex = match.index + match[0].length;
       }
 
@@ -50,12 +64,12 @@ const DialogueBox = memo(
       const parsedText = parseText(displayText);
       if (!parsedText || parsedText.length === 0) return displayText;
 
-      // If displayText doesn't contain ** markers, return as-is (achievements not displayed yet)
-      if (!displayText.includes("**")) {
+      // If displayText doesn't contain special markers, return as-is
+      if (!displayText.includes("**") && !displayText.includes("[video:")) {
         return displayText;
       }
 
-      // Reconstruct the displayed text with achievement badges
+      // Reconstruct the displayed text with achievement badges and videos
       const result = [];
       let pos = 0;
 
@@ -76,6 +90,32 @@ const DialogueBox = memo(
           } else if (remaining.startsWith(achievementText.substring(0, 2))) {
             // Achievement is partially started
             result.push(<span key={`text-${result.length}`}>{remaining}</span>);
+            break;
+          } else {
+            // Show remaining
+            if (remaining) {
+              result.push(
+                <span key={`text-${result.length}`}>{remaining}</span>,
+              );
+            }
+            break;
+          }
+        } else if (item.type === "video") {
+          const videoText = `[video:${item.content}]`;
+          const remaining = displayText.substring(pos);
+
+          if (remaining.startsWith(videoText)) {
+            // Video tag is complete - render video player
+            result.push(
+              <VideoPlayer
+                key={`video-${result.length}`}
+                src={`/videos/${item.content}`}
+              />,
+            );
+            pos += videoText.length;
+          } else if (remaining.startsWith("[video:")) {
+            // Video tag is partially started - hide it, don't show partial tag
+            // Just show everything before it
             break;
           } else {
             // Show remaining

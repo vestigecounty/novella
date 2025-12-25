@@ -76,6 +76,16 @@ export class MarkdownParser {
         continue;
       }
 
+      // Detect video directive (video: filename.mp4)
+      const videoMatch = trimmed.match(/^video:\s*(.+)\s*$/);
+      if (videoMatch) {
+        currentContent.push({
+          type: "video",
+          src: videoMatch[1],
+        });
+        continue;
+      }
+
       // Detect sprite directive (sprite: character position size)
       // Format: sprite: МС left-third lg or sprite: prosphor-amused left-third lg
       // Sprites are treated as content items, not metadata, so they can change during gameplay
@@ -118,9 +128,9 @@ export class MarkdownParser {
         const text = dialogueMatch[2];
 
         // Check if character part has alias syntax: Name (alias, #color)
-        // Support both ASCII and Cyrillic characters for alias
+        // Support Unicode letters for alias (includes Latin, Cyrillic, Croatian, etc.)
         const aliasMatch = characterPart.match(
-          /^(.+?)\s*\(\s*([\w\u0400-\u04FF]+)\s*,\s*(#[\dA-Fa-f]{6})\s*\)$/,
+          /^(.+?)\s*\(\s*([\w\u0080-\uFFFF]+)\s*,\s*(#[\dA-Fa-f]{6})\s*\)$/u,
         );
 
         if (aliasMatch) {

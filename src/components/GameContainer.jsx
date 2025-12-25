@@ -7,6 +7,8 @@ import React, { useEffect, useRef, useState } from "react";
 import DialogueBox from "./DialogueBox";
 import MenuChoices from "./MenuChoices";
 import SceneDisplay from "./SceneDisplay";
+import LanguageSelector from "./LanguageSelector";
+import VideoPlayer from "./VideoPlayer";
 import useProgressiveText from "../hooks/useProgressiveText";
 import "../styles/components.css";
 
@@ -23,10 +25,43 @@ const GameContainer = ({
   onGoBack,
   onSelectChoice,
   onReset,
+  language,
+  onLanguageChange,
 }) => {
   // Track if we just went back to skip animation
   const [skipAnimation, setSkipAnimation] = useState(false);
   const prevContentRef = useRef(null);
+  const prevLanguageRef = useRef(language);
+  const [dialogueCount, setDialogueCount] = useState(0);
+
+  // Skip animation when language changes
+  useEffect(() => {
+    if (language !== prevLanguageRef.current) {
+      setSkipAnimation(true);
+      prevLanguageRef.current = language;
+      // Reset skip animation after a short delay
+      setTimeout(() => setSkipAnimation(false), 100);
+    }
+  }, [language]);
+
+  // Track dialogue progression
+  useEffect(() => {
+    if (currentContent?.type === "dialogue") {
+      // Check if this is a new dialogue
+      if (
+        !prevContentRef.current ||
+        currentContent.text !== prevContentRef.current.text
+      ) {
+        setDialogueCount((prev) => prev + 1);
+        prevContentRef.current = currentContent;
+      }
+    }
+  }, [currentContent]);
+
+  // Reset dialogue count when language changes
+  useEffect(() => {
+    setDialogueCount(0);
+  }, [language]);
 
   // Use progressive text hook to consolidate click handling
   const isDialogue = currentContent?.type === "dialogue";
@@ -168,6 +203,10 @@ const GameContainer = ({
     );
   }
 
+  // Show language selector only on the very first dialogue (dialogueCount === 1)
+  const showLanguageSelector =
+    dialogueCount === 1 && language && onLanguageChange && isDialogue;
+
   return (
     <div
       className="game-container"
@@ -178,6 +217,13 @@ const GameContainer = ({
       style={isDialogue ? { cursor: "pointer" } : {}}
     >
       <SceneDisplay scene={scene} pose={pose} sprites={sprites} />
+
+      {showLanguageSelector && (
+        <LanguageSelector
+          currentLanguage={language}
+          onLanguageChange={onLanguageChange}
+        />
+      )}
 
       {currentContent.type === "dialogue" && (
         <DialogueBox

@@ -31,10 +31,18 @@ export function useProgressiveText(text, skipAnimation = false) {
     const result = [];
     let current = "";
     let i = 0;
+    let insideVideoTag = false;
 
     while (i < fullText.length) {
       const char = fullText[i];
       current += char;
+
+      // Track if we're inside a [video:...] tag
+      if (char === "[" && fullText.substring(i, i + 7) === "[video:") {
+        insideVideoTag = true;
+      } else if (insideVideoTag && char === "]") {
+        insideVideoTag = false;
+      }
 
       // Check for ellipsis (...)
       if (char === "." && fullText[i + 1] === "." && fullText[i + 2] === ".") {
@@ -43,8 +51,11 @@ export function useProgressiveText(text, skipAnimation = false) {
         result.push(current.trim());
         current = "";
       }
-      // Check for sentence ending (., !, ?)
-      else if (char === "." || char === "!" || char === "?") {
+      // Check for sentence ending (., !, ?) - but not inside video tags
+      else if (
+        (char === "." || char === "!" || char === "?") &&
+        !insideVideoTag
+      ) {
         // Don't end if next char is also a period (could be ellipsis start)
         // Don't end if ? is followed by ! (treat ?! as single ending)
         if (
