@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useRef } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX, ExternalLink } from "lucide-react";
 import "../styles/video-player.css";
 
 const VideoPlayer = ({ src }) => {
@@ -18,6 +18,20 @@ const VideoPlayer = ({ src }) => {
       videoRef.current.muted = !isMuted;
     }
   };
+
+  const handleSourceClick = (e) => {
+    e.stopPropagation(); // Prevent dialogue advance
+    const videoName = src.split("/").pop();
+    if (videoName === "catjammer.mp4") {
+      window.open(
+        "https://www.youtube.com/watch?v=xQlSntJgyQM",
+        "_blank",
+        "noopener,noreferrer",
+      );
+    }
+  };
+
+  const showSourceButton = src.split("/").pop() === "catjammer.mp4";
 
   return (
     <div className="video-player-container">
@@ -37,6 +51,15 @@ const VideoPlayer = ({ src }) => {
       >
         {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
       </button>
+      {showSourceButton && (
+        <button
+          className="video-source-button"
+          onClick={handleSourceClick}
+          aria-label="View source"
+        >
+          <ExternalLink size={20} />
+        </button>
+      )}
     </div>
   );
 };
