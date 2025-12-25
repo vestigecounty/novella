@@ -317,7 +317,7 @@ sprite: el-annoyed right-third lg
 
 **Г**: Без проблем! Удачи с вашим шедевром!
 
-[**Получен ключ на чердак**](#matriarch_cat)
+[Взять ключ на чердак](#matriarch_cat)
 
 # kuku_boards
 scene: kuku

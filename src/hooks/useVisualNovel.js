@@ -209,6 +209,17 @@ export function useVisualNovel(scriptText, skipReset = false) {
     }
   }, [scriptText]);
 
+  // Helper function to create dialogue content
+  const createDialogueContent = (character, text) => {
+    return {
+      type: "dialogue",
+      character: charactersRef.current.getDisplayName(character),
+      text: text,
+      displayName: charactersRef.current.getDisplayName(character),
+      color: charactersRef.current.getColor(character),
+    };
+  };
+
   // Advance to next content
   const advance = useCallback(() => {
     if (!gameStateRef.current || gameEnded) {
@@ -283,17 +294,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
         setSprites(currentSprites);
 
         if (nextContent?.type === "dialogue") {
-          setCurrentContent({
-            type: "dialogue",
-            character: charactersRef.current.getDisplayName(
-              nextContent.character,
-            ),
-            text: nextContent.text,
-            displayName: charactersRef.current.getDisplayName(
-              nextContent.character,
-            ),
-            color: charactersRef.current.getColor(nextContent.character),
-          });
+          setCurrentContent(
+            createDialogueContent(nextContent.character, nextContent.text),
+          );
           setChoices([]);
         } else if (nextContent?.type === "choice") {
           const sectionChoices = nextSection.content.filter(
@@ -319,17 +322,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
         const nextSection = gameState.getCurrentSection();
 
         if (nextContent?.type === "dialogue") {
-          setCurrentContent({
-            type: "dialogue",
-            character: charactersRef.current.getDisplayName(
-              nextContent.character,
-            ),
-            text: nextContent.text,
-            displayName: charactersRef.current.getDisplayName(
-              nextContent.character,
-            ),
-            color: charactersRef.current.getColor(nextContent.character),
-          });
+          setCurrentContent(
+            createDialogueContent(nextContent.character, nextContent.text),
+          );
           setChoices([]);
         } else if (nextContent?.type === "choice") {
           const sectionChoices = nextSection.content.filter(
@@ -360,17 +355,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
         const nextSection = gameState.getCurrentSection();
 
         if (nextContent?.type === "dialogue") {
-          setCurrentContent({
-            type: "dialogue",
-            character: charactersRef.current.getDisplayName(
-              nextContent.character,
-            ),
-            text: nextContent.text,
-            displayName: charactersRef.current.getDisplayName(
-              nextContent.character,
-            ),
-            color: charactersRef.current.getColor(nextContent.character),
-          });
+          setCurrentContent(
+            createDialogueContent(nextContent.character, nextContent.text),
+          );
           setChoices([]);
         } else if (nextContent?.type === "choice") {
           const sectionChoices = nextSection.content.filter(
@@ -389,17 +376,12 @@ export function useVisualNovel(scriptText, skipReset = false) {
           const furtherSection = gameState.getCurrentSection();
 
           if (furtherContent?.type === "dialogue") {
-            setCurrentContent({
-              type: "dialogue",
-              character: charactersRef.current.getDisplayName(
+            setCurrentContent(
+              createDialogueContent(
                 furtherContent.character,
+                furtherContent.text,
               ),
-              text: furtherContent.text,
-              displayName: charactersRef.current.getDisplayName(
-                furtherContent.character,
-              ),
-              color: charactersRef.current.getColor(furtherContent.character),
-            });
+            );
             setChoices([]);
           } else if (furtherContent?.type === "choice") {
             const sectionChoices = furtherSection.content.filter(
@@ -413,15 +395,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
           }
         }
       } else if (newContent?.type === "dialogue") {
-        setCurrentContent({
-          type: "dialogue",
-          character: charactersRef.current.getDisplayName(newContent.character),
-          text: newContent.text,
-          displayName: charactersRef.current.getDisplayName(
-            newContent.character,
-          ),
-          color: charactersRef.current.getColor(newContent.character),
-        });
+        setCurrentContent(
+          createDialogueContent(newContent.character, newContent.text),
+        );
         setChoices([]);
       } else if (newContent?.type === "choice") {
         const sectionChoices = newSection.content.filter(
@@ -485,15 +461,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
         setSprites(currentSprites);
 
         if (content?.type === "dialogue") {
-          setCurrentContent({
-            type: "dialogue",
-            character: charactersRef.current.getDisplayName(content.character),
-            text: content.text,
-            displayName: charactersRef.current.getDisplayName(
-              content.character,
-            ),
-            color: charactersRef.current.getColor(content.character),
-          });
+          setCurrentContent(
+            createDialogueContent(content.character, content.text),
+          );
           setChoices([]);
         } else if (content?.type === "choice") {
           const sectionChoices = currentSection.content.filter(
@@ -511,17 +481,12 @@ export function useVisualNovel(scriptText, skipReset = false) {
           const furtherSection = gameState.getCurrentSection();
 
           if (furtherContent?.type === "dialogue") {
-            setCurrentContent({
-              type: "dialogue",
-              character: charactersRef.current.getDisplayName(
+            setCurrentContent(
+              createDialogueContent(
                 furtherContent.character,
+                furtherContent.text,
               ),
-              text: furtherContent.text,
-              displayName: charactersRef.current.getDisplayName(
-                furtherContent.character,
-              ),
-              color: charactersRef.current.getColor(furtherContent.character),
-            });
+            );
             setChoices([]);
           }
         }
@@ -535,17 +500,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
         const nextSection = gameState.getCurrentSection();
 
         if (nextContent?.type === "dialogue") {
-          setCurrentContent({
-            type: "dialogue",
-            character: charactersRef.current.getDisplayName(
-              nextContent.character,
-            ),
-            text: nextContent.text,
-            displayName: charactersRef.current.getDisplayName(
-              nextContent.character,
-            ),
-            color: charactersRef.current.getColor(nextContent.character),
-          });
+          setCurrentContent(
+            createDialogueContent(nextContent.character, nextContent.text),
+          );
           setChoices([]);
         } else if (nextContent?.type === "choice") {
           const sectionChoices = nextSection.content.filter(
@@ -572,17 +529,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
         const nextSection = gameState.getCurrentSection();
 
         if (nextContent?.type === "dialogue") {
-          setCurrentContent({
-            type: "dialogue",
-            character: charactersRef.current.getDisplayName(
-              nextContent.character,
-            ),
-            text: nextContent.text,
-            displayName: charactersRef.current.getDisplayName(
-              nextContent.character,
-            ),
-            color: charactersRef.current.getColor(nextContent.character),
-          });
+          setCurrentContent(
+            createDialogueContent(nextContent.character, nextContent.text),
+          );
           setChoices([]);
         } else if (nextContent?.type === "choice") {
           const sectionChoices = nextSection.content.filter(
@@ -600,17 +549,12 @@ export function useVisualNovel(scriptText, skipReset = false) {
           const furtherSection = gameState.getCurrentSection();
 
           if (furtherContent?.type === "dialogue") {
-            setCurrentContent({
-              type: "dialogue",
-              character: charactersRef.current.getDisplayName(
+            setCurrentContent(
+              createDialogueContent(
                 furtherContent.character,
+                furtherContent.text,
               ),
-              text: furtherContent.text,
-              displayName: charactersRef.current.getDisplayName(
-                furtherContent.character,
-              ),
-              color: charactersRef.current.getColor(furtherContent.character),
-            });
+            );
             setChoices([]);
           } else if (furtherContent?.type === "choice") {
             const sectionChoices = furtherSection.content.filter(
@@ -624,15 +568,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
           }
         }
       } else if (newContent?.type === "dialogue") {
-        setCurrentContent({
-          type: "dialogue",
-          character: charactersRef.current.getDisplayName(newContent.character),
-          text: newContent.text,
-          displayName: charactersRef.current.getDisplayName(
-            newContent.character,
-          ),
-          color: charactersRef.current.getColor(newContent.character),
-        });
+        setCurrentContent(
+          createDialogueContent(newContent.character, newContent.text),
+        );
         setChoices([]);
       } else if (newContent?.type === "choice") {
         const sectionChoices = newSection.content.filter(
@@ -694,15 +632,9 @@ export function useVisualNovel(scriptText, skipReset = false) {
         });
         setChoices([]);
       } else if (newContent?.type === "dialogue") {
-        setCurrentContent({
-          type: "dialogue",
-          character: charactersRef.current.getDisplayName(newContent.character),
-          text: newContent.text,
-          displayName: charactersRef.current.getDisplayName(
-            newContent.character,
-          ),
-          color: charactersRef.current.getColor(newContent.character),
-        });
+        setCurrentContent(
+          createDialogueContent(newContent.character, newContent.text),
+        );
         setChoices([]);
       } else if (newContent?.type === "choice") {
         const sectionChoices = newSection.content.filter(

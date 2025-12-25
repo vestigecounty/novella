@@ -16,27 +16,22 @@ export class DialogueProcessor {
    */
   processDialogue(character, text) {
     return {
-      character: character || 'Narrator',
+      character: character || "Narrator",
       text: this.parseText(text),
       raw: text,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
   }
 
   /**
    * Parse text for special formatting
    * @param {string} text - Raw text
-   * @returns {string} Parsed text
+   * @returns {string} Parsed text with markers preserved for rendering
    */
   parseText(text) {
-    let parsed = text;
-
-    // Replace emphasis markers
-    parsed = parsed.replace(/\*\*(.*?)\*\*/g, '$1'); // Remove bold markers
-    parsed = parsed.replace(/\*(.*?)\*/g, '$1'); // Remove italic markers
-    parsed = parsed.replace(/__(.*?)__/g, '$1'); // Remove underline markers
-
-    return parsed.trim();
+    // Keep the text as-is with ** markers intact
+    // The markers will be processed by the DialogueBox component
+    return text.trim();
   }
 
   /**
@@ -47,16 +42,16 @@ export class DialogueProcessor {
    */
   paginateText(text, charsPerPage = 200) {
     const pages = [];
-    let currentPage = '';
+    let currentPage = "";
 
-    const words = text.split(' ');
+    const words = text.split(" ");
 
     for (const word of words) {
-      if ((currentPage + ' ' + word).length > charsPerPage && currentPage) {
+      if ((currentPage + " " + word).length > charsPerPage && currentPage) {
         pages.push(currentPage.trim());
         currentPage = word;
       } else {
-        currentPage += (currentPage ? ' ' : '') + word;
+        currentPage += (currentPage ? " " : "") + word;
       }
     }
 
@@ -74,7 +69,7 @@ export class DialogueProcessor {
   addToHistory(dialogue) {
     this.dialogueHistory.push({
       ...dialogue,
-      id: this.dialogueHistory.length
+      id: this.dialogueHistory.length,
     });
   }
 
@@ -100,7 +95,7 @@ export class DialogueProcessor {
    */
   formatDialogue(dialogue) {
     const { character, text } = dialogue;
-    if (character === 'Narrator') {
+    if (character === "Narrator") {
       return text;
     }
     return `${character}: ${text}`;
@@ -115,7 +110,7 @@ export class DialogueProcessor {
     // Match **Name**: pattern
     const matches = text.match(/\*\*([^*]+)\*\*:/g);
     if (!matches) return [];
-    return matches.map(m => m.replace(/\*\*/g, '').replace(':', ''));
+    return matches.map((m) => m.replace(/\*\*/g, "").replace(":", ""));
   }
 
   /**
@@ -128,7 +123,7 @@ export class DialogueProcessor {
       hasEmphasis: /\*\*(.*?)\*\*/.test(text),
       hasItalic: /\*(.*?)\*/.test(text),
       hasUnderline: /__(.*?)__/.test(text),
-      hasLinks: /\[.*?\]\(.*?\)/.test(text)
+      hasLinks: /\[.*?\]\(.*?\)/.test(text),
     };
   }
 }

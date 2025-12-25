@@ -155,6 +155,7 @@ export class MarkdownParser {
           type: "choice",
           text: choiceMatch[1],
           target: choiceMatch[2],
+          rawText: choiceMatch[1], // Keep raw text for parsing
         });
         continue;
       }
