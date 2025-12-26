@@ -59,6 +59,11 @@
     height: 100%;
     object-fit: cover;
     animation: sceneTransition 0.5s ease-in-out;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
 }
 
 @keyframes sceneTransition {
