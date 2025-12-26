@@ -329,7 +329,7 @@
     pointer-events: none;
     display: flex;
     align-items: flex-end;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .sprite-container {
@@ -339,7 +339,7 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.3s ease;
 }
 
