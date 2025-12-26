@@ -97,13 +97,13 @@ sprite: trashman-wise right-third lg
 
 sprite:
 
-**H**: (Dahtajući) Tartufi... kakva propast! Trebao sam pojesti gljivni kolač, bio bi to pametan pokušaj!
+**H**: (Dahtajući) Tartufi... kakva tuga! Trebao sam jesti običnu pitu, bila bi to mudra sluga!
 
 sprite: trashman-wise right-third lg
 
 **ČS**: (Mirno promatra što se događa)
-Za pohlepu sada skupo plaća,
-Ne smij se tuđoj nesreći, jer ta se vraća.
+Za pohlepu platio je životom sad,
+Ne rugaj se nesreći, budalo, to ti je savjet mlad.
 
 [Umrli ste](#end_scene)
 
@@ -371,14 +371,14 @@ scene: attic
 sprite: matriarch-side center lg
 
 **Mačka-matrijarh (MM, #594157)**: (Rappa, prižmirujući oči)
-**MM**: Noć je u dvoru, ne znam kuda ići
-**MM**: Skupa zdjela, skupa voda, to je moj lik
-**MM**: Meke šape, meke riječi, ja sam tak' fin
-**MM**: Vidim svoju hranu, ja sam takav, o da, da
+**MM**: Noć u dvorištu, ne znam kud da idem ja
+**MM**: Skupa zdjela, skup H2O, to je moja stvar
+**MM**: Meke šape, meke riječi, uvijek imam dar
+**MM**: Vidim svoju hranu, ja sam takav, yo, baš car
 
 sprite: matriarch-licking center lg
 
-**MM**: Ukrala sam ti ribu dok si spavao, nisam uhvaćena - nisam lopov
+**MM**: Ukrala ribu dok si spavao, nisam uhvaćena - nisam kriminalac, to je zakon stvar
 
 (Otvara oči i gleda Heroja)
 
@@ -542,7 +542,7 @@ scene: attic
 
 sprite: matriarch-side center lg
 
-**MM**: U Kukutučevu je zima? Pa tu je vječna smrzlina! U svjetove portali? Tu su kante za smeće, jedina istina!
+**MM**: U Kukutučevu je zima? Pa tu je vječna smrzlina! Portali u svjetove? Kante za smeće, to je stvarnost jedina!
 
 sprite:
 
@@ -561,7 +561,7 @@ sprite: matriarch-candid center lg
 
 sprite: matriarch-side center lg
 
-**MM**: Svijet uvijek gori, a ja se samo grijem na plamenu ovdje sjedi
+**MM**: Svijet uvijek gori, ja se grijem na plamenu, bravo za te.
 
 sprite:
 
@@ -569,7 +569,7 @@ sprite:
 
 sprite: matriarch-licking center lg
 
-**MM**: Strateg? Ti si samo malo mače! Ja ovdje vladam cijelim dvorištem i svakom kantom! I čak znam tko je što danas bacio tamo!
+**MM**: Strateg? Ti si samo mala maca! Ja vladam ovim dvorom i svim kantama, to je istina prava! I čak znam tko je što bacio, nikad se ne varam, slava!
 
 sprite: matriarch-candid center lg
 
@@ -579,7 +579,7 @@ sprite: matriarch-candid center lg
 # rap_forged_in_tram
 scene: attic
 
-**H**: Kante za smeće su samo odraz našeg života brate.
+**H**: Kante za smeće su odraz života, slušaj ti.
 **H**: U vatri bili smo, u tramvaju broj tri!
 
 sprite: matriarch-laughing center lg
@@ -607,11 +607,11 @@ scene: attic
 
 sprite: matriarch-licking center lg
 
-**MM**: Rep nije tvoje, može se desit, jednostavno nije dano što.
+**MM**: Rep nije tvoje, pokušavaš al' nemaš taj flow.
 
 sprite:
 
-**H**: Proza je dosadno smeće, iako pišeš već davno toliko
+**H**: Proza je dosadno smeće, pišeš je zidovima, to je tvoj show.
 
 sprite: matriarch-candid center lg
 
