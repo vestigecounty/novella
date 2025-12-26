@@ -119,6 +119,7 @@
     .dialogue-box {
         min-height: 100px;
         padding: 10px;
+        padding-top: 50px;
         flex-shrink: 0;
     }
 

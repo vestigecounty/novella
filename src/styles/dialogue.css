@@ -242,6 +242,7 @@
     .dialogue-box {
         min-height: 120px;
         padding: 15px;
+        padding-top: 50px;
         padding-bottom: calc(15px + env(safe-area-inset-bottom));
         /* Ensure it stays at bottom on mobile */
         position: fixed;
@@ -289,6 +290,7 @@
         max-height: 80vh;
         max-height: 80dvh;
         padding: 10px;
+        padding-top: 50px;
         padding-bottom: calc(10px + env(safe-area-inset-bottom));
     }
 
