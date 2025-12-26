@@ -24,6 +24,11 @@ export const LANGUAGES = {
     name: "Hrvatski",
     flag: "🇭🇷",
   },
+  da: {
+    code: "da",
+    name: "Dansk",
+    flag: "🇩🇰",
+  },
 };
 
 // Default language
