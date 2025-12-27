@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import GameContainer from "./components/GameContainer";
 import useVisualNovel from "./hooks/useVisualNovel";
 import {
@@ -150,6 +151,7 @@ function App() {
         language={language}
         onLanguageChange={handleLanguageChange}
       />
+      <Analytics />
     </div>
   );
 }
